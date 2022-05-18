@@ -22,7 +22,6 @@ public class BulletPool : MonoBehaviour
         for(int i = 0; i < _createLimit; i++)
         {
             var bu = CreateBullet();
-            bu.Rb.simulated = false;
             bu.gameObject.SetActive(false);
             _bulletList.Add(bu);
         }
@@ -37,9 +36,8 @@ public class BulletPool : MonoBehaviour
     {
         foreach(var obj in _bulletList)
         {
-            if(!obj.Rb.simulated)
+            if(!obj.gameObject.activeSelf)
             {
-                obj.Rb.simulated = true;
                 obj.gameObject.SetActive(true);
                 return obj;
             }
@@ -48,7 +46,6 @@ public class BulletPool : MonoBehaviour
         var bu = CreateBullet();
         _bulletList.Add(bu);
 
-        bu.Rb.simulated = true;
         return bu;
     }
 }

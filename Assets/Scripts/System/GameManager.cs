@@ -18,6 +18,10 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] float _timerLimit = 15f;
     float _timer;
 
+    PlayerController _player = default;
+
+    static public PlayerController Player { get => Instance._player;}
+
     private void Update()
     {
         Timer();
@@ -32,9 +36,12 @@ public class GameManager : Singleton<GameManager>
         if(_timer >= _timerLimit)
         {
             _timer = 0;
-            Debug.Log($"{this.name} : <color=red>OnSetTarget‚ğŒÄ‚Ño‚µ‚½</color>");
 
             OnSetTarget();
         }
+    }
+    public void SetPlayer(PlayerController p)
+    {
+        _player = p;
     }
 }
