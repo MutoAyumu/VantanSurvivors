@@ -21,11 +21,9 @@ public class Spawner : MonoBehaviour
 
     private void Start()
     {
-        _enemyPool.SetBaseObj(_prefab, _root);
-        _enemyPool.SetCapacity(_createLimit);
-        EnemyManager.Instance.SetList(_enemyPool.PoolList);
-
-        for (int i = 0; i < _createLimit; i++) Spawn();
+        //_enemyPool.SetBaseObj(_prefab, _root);
+        //_enemyPool.SetCapacity(_createLimit);
+        //EnemyManager.Instance.SetList(_enemyPool.PoolList);
     }
 
     private void Update()
@@ -41,14 +39,15 @@ public class Spawner : MonoBehaviour
     void Spawn()
     {
         var script = _enemyPool.Instantiate();
-        if (!script) return;
-        /*
-        var go = GameObject.Instantiate(_prefab);
-        var script = go.GetComponent<Enemy>();
-        */
+        if (!script)
+        {
+            Debug.Log($"{this.name} : <color=blue>‹ó‚É‚È‚è‚Ü‚µ‚½</color>");
+            return;
+        }
+
+        _cRad = UnityEngine.Random.Range(360f, 0f);
         _popPos.x = GameManager.Player.transform.position.x + _lenght * Mathf.Cos(_cRad);
         _popPos.y = GameManager.Player.transform.position.y + _lenght * Mathf.Sin(_cRad);
         script.transform.position = _popPos;
-        _cRad += 0.1f;
     }
 }

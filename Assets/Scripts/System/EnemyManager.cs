@@ -5,92 +5,42 @@ using UnityEngine;
 public class EnemyManager : Singleton<EnemyManager>
 {
     List<EnemyBase> _enemies = new List<EnemyBase>();
-    Rect _rect = new Rect(0, 0, 1, 1);
-    Camera _cam = default;
+    [SerializeField] int _createLimit = 1000;
+    [SerializeField] float _lenght = 50;
+    [SerializeField] EnemyBase _prefab = null;
+    [SerializeField] Transform _root = null;
 
-    static public List<EnemyBase> EnemyList { get => Instance._enemies;}
+    float _cRad = 0.0f;
+    Vector3 _popPos = new Vector3(0, 0, 0);
 
+    ObjectPool<EnemyBase> _enemyPool = new ObjectPool<EnemyBase>();
+
+    GameManager _gameManager;
+
+    private void Awake()
+    {
+        _gameManager = GameManager.Instance;
+    }
     private void Start()
     {
-        _cam = Camera.main;
+        _enemyPool.SetBaseObj(_prefab, _root);
+        _enemyPool.SetCapacity(_createLimit);
+        _enemies = _enemyPool.PoolList;
+        _gameManager.OnSetEnemy += Spawn;
     }
-    //private void OnEnable()
-    //{
-    //    Debug.Log($"{this.name} : <color=red>OnSetTargetに登録</color>");
-    //    GameManager.Instance.OnSetTarget += CheckCollisionDetection;
-    //}
-    //public void OnDisable()
-    //{
-    //    Debug.Log($"{this.name} : <color=red>OnSetTargetから削除</color>");
-    //    GameManager.Instance.OnSetTarget -= CheckCollisionDetection;
-    //}
-    public void SetList(List<EnemyBase> enemies)
+
+    void Spawn()
     {
-        _enemies = enemies;
-    }
-    /// <summary>
-    /// 全エネミーの当たり判定チェック
-    /// </summary>
-    void CheckCollisionDetection()
-    {
-        for (int i = 0; i < EnemyList.Count; i++)
+        var script = _enemyPool.Instantiate();
+        if (!script)
         {
-            var enemy1 = EnemyList[i];
-            var view1 = CheckViewPort(enemy1.transform);
-
-            if (!view1) continue;
-
-            for (int j = 0; j < EnemyList.Count; j++)
-            {
-                var enemy2 = EnemyList[j];
-
-                if (enemy1 == enemy2) continue;
-
-                var view2 = CheckViewPort(enemy2.transform);
-
-                if (!view2) continue;
-
-                var dir = enemy2.transform.position - enemy1.transform.position;
-
-                var normal = dir.normalized;
-                var magnitude = dir.magnitude;
-
-                if (dir.normalized == Vector3.zero)
-                {
-                    normal = Vector2.up;
-                }
-
-                if (magnitude < enemy1.Radius * 2)
-                {
-                    var a = PlayerDistance(enemy1.transform);
-                    var b = PlayerDistance(enemy2.transform);
-
-                    if (a > b)
-                    {
-                        enemy2.transform.position += (enemy2.Radius * 2 - magnitude) * normal / 2;
-                    }
-                    else
-                    {
-                        enemy1.transform.position += (enemy2.Radius * 2 - magnitude) * normal / 2;
-                    }
-                }
-            }
-        }
-    }
-    float PlayerDistance(Transform t1)
-    {
-        return Vector2.Distance(t1.position, GameManager.Player.transform.position);
-    }
-
-    bool CheckViewPort(Transform target)
-    {
-        var viewPos = _cam.WorldToViewportPoint(target.transform.position);
-
-        if (_rect.Contains(viewPos))
-        {
-            return true;
+            Debug.Log($"{this.name} : <color=blue>空になりました</color>");
+            return;
         }
 
-        return false;
+        _cRad = Random.Range(360f, 0f);
+        _popPos.x = GameManager.Player.transform.position.x + _lenght * Mathf.Cos(_cRad);
+        _popPos.y = GameManager.Player.transform.position.y + _lenght * Mathf.Sin(_cRad);
+        script.transform.position = _popPos;
     }
 }

@@ -15,7 +15,7 @@ public class TestEnemyPoolBase : MonoBehaviour
     }
     private void OnEnable()
     {
-        GameManager.Instance.OnSetTarget += CheckCollisionDetection;
+        //AGameManager.Instance.OnSetTarget += CheckCollisionDetection;
     }
     public void OnDisable()
     {
