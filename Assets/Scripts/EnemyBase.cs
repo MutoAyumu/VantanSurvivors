@@ -10,14 +10,28 @@ public class EnemyBase : MonoBehaviour, IObjectPool
     float _speed;
     Transform _player = default;
     SpriteRenderer _sprite;
+    Rigidbody2D _rb;
+    GameManager _gameManager;
+    bool _isPause;
 
     public float Radius { get => _radius;}
 
     private void Awake()
     {
+        _gameManager = GameManager.Instance;
         _sprite = this.GetComponent<SpriteRenderer>();
+        _rb = this.GetComponent<Rigidbody2D>();
     }
-
+    private void OnEnable()
+    {
+        _gameManager.OnPause += Pause;
+        _gameManager.OnResume += Resume;
+    }
+    private void OnDisable()
+    {
+        _gameManager.OnPause -= Pause;
+        _gameManager.OnResume -= Resume;
+    }
     private void Start()
     {
         _speed = _status.Speed;
@@ -25,7 +39,7 @@ public class EnemyBase : MonoBehaviour, IObjectPool
     }
     private void Update()
     {
-        if (!IsActive) return;
+        if (!IsActive || _isPause) return;
 
         Vector3 dir = _player.position - this.transform.position;
         dir.Normalize();
@@ -33,30 +47,42 @@ public class EnemyBase : MonoBehaviour, IObjectPool
         transform.position += dir * _speed * Time.deltaTime;
     }
 
-    /// <summary>
-    /// “–‚½‚è”»’è‚Ì”ÍˆÍ‚ð•\Ž¦
-    /// </summary>
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(this.transform.position, _radius);
-    }
-
     bool _isActive = false;
     public bool IsActive => _isActive;
     public void DisactiveForInstantiate()
     {
         _sprite.enabled = false;
+        _rb.simulated = false;
         _isActive = false;
     }
     public void Create()
     {
         _sprite.enabled = true;
+        _sprite.sprite = _status.Sprite;
+        _rb.simulated = true;
         _isActive = true;
     }
     public void Destroy()
     {
         _sprite.enabled = false;
+        _rb.simulated = false;
         _isActive = false;
+    }
+
+    void Pause()
+    {
+        if(IsActive)
+        {
+            _rb.simulated = false;
+            _isPause = true;
+        }
+    }
+    void Resume()
+    {
+        if(IsActive)
+        {
+            _rb.simulated = true;
+            _isPause = false;
+        }
     }
 }

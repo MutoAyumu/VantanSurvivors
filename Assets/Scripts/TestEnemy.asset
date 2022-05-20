@@ -15,4 +15,4 @@ MonoBehaviour:
   _hp: 0
   _speed: 0.5
   _power: 0
-  _sprite: {fileID: 0}
+  _sprite: {fileID: -2413806693520163455, guid: ac64e555f9a55f146aa857c092571667, type: 3}

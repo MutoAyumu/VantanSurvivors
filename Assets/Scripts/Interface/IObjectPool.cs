@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// オブジェクトプールのインターフェース
+/// </summary>
 public interface IObjectPool
 {
     bool IsActive { get; }
