@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletPool : MonoBehaviour
+public class TestBulletPool : MonoBehaviour
 {
-    [SerializeField] Bullet _bullet = default;
+    [SerializeField] BulletBase _bullet = default;
     [SerializeField] int _createLimit = 10;
 
-    List<Bullet> _bulletList;
+    List<BulletBase> _bulletList;
 
     private void Awake()
     {
@@ -17,7 +17,7 @@ public class BulletPool : MonoBehaviour
 
     void CreatePool()
     {
-        _bulletList = new List<Bullet>();
+        _bulletList = new List<BulletBase>();
 
         for(int i = 0; i < _createLimit; i++)
         {
@@ -28,11 +28,11 @@ public class BulletPool : MonoBehaviour
 
         Debug.Log(this + $" : {_createLimit}ŒÂ¶¬I—¹");
     }
-    Bullet CreateBullet()
+    BulletBase CreateBullet()
     {
         return Instantiate(_bullet, this.transform.position, Quaternion.identity, this.transform);
     }
-    public Bullet GetBullet()
+    public BulletBase GetBullet()
     {
         foreach(var obj in _bulletList)
         {

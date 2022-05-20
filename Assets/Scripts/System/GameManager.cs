@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.UI;
-
+/// <summary>
+/// ゲーム時間の管理・ゲームオーバー・クリアのイベント管理・フェーズの管理
+/// </summary>
 public class GameManager : Singleton<GameManager>
 {
     public event Action OnPause;
@@ -20,9 +22,10 @@ public class GameManager : Singleton<GameManager>
     [SerializeField, Tooltip("敵を生成するイベントを実行する時間")] float[] _timerLimit = default;
     [SerializeField, Tooltip("ゲームの時間上限")] float _gameEndTime = 10f;
     [SerializeField, Tooltip("次のフェーズに遷るまでの時間")] float _phaseTime = 20f;
-    float _timer;
-    float _gameTimer;
-    float _phaseTimer;
+
+    Timer _timer = new Timer();
+    Timer _gameTimer = new Timer();
+    Timer _phaseTimer = new Timer();
     int _phaseCount;
     bool _isClear;
     bool _isPause;
@@ -40,14 +43,40 @@ public class GameManager : Singleton<GameManager>
         {
             Debug.LogError($"{this.name} : タイマーテキストがセットされていません");
         }
+
+        _timer.Setup(_timerLimit[_phaseCount]);
+        _phaseTimer.Setup(_phaseTime);
+        _gameTimer.Setup(_gameEndTime);
     }
     private void Update()
     {
         if (!_isPause)
         {
-            Timer(OnSetEnemy);
-            GameTimer();
-            PhaseTimer();
+            if(_timer.RunTimer())
+            {
+                OnSetEnemy.Invoke();
+            }
+
+            if(_gameTimer.RunTimer())
+            {
+                if (_timerText)
+                {
+                    var time = _timer.ReturnTime();
+                    _timerText.text = ((int)(time / 60)).ToString() + ":" + ((int)(time % 60)).ToString("00");
+                }
+
+                if (_isClear) return;
+
+                OnGameClear?.Invoke();
+            }
+
+            if(_phaseTimer.RunTimer())
+            {
+                Debug.Log($"{this.name} : <color=red>フェーズ{_phaseCount}</color>");
+
+                if (_phaseCount < _timerLimit.Length - 1)
+                    _phaseCount++;
+            }
         }
 
         if (Input.GetButtonDown("Cancel"))
@@ -62,45 +91,6 @@ public class GameManager : Singleton<GameManager>
                 _isPause = false;
                 OnResume?.Invoke();
             }
-        }
-    }
-
-    void Timer(Action action)
-    {
-        _timer += Time.deltaTime;
-
-        if(_timer >= _timerLimit[_phaseCount])
-        {
-            _timer = 0;
-
-            action?.Invoke();
-        }
-    }
-    void GameTimer()
-    {
-        _gameTimer += Time.deltaTime;
-
-        if(_timerText)
-        _timerText.text = ((int)(_gameTimer / 60)).ToString() + ":" + ((int)(_gameTimer % 60)).ToString("00");
-
-        if (_isClear) return;
-
-        if(_gameTimer >= _gameEndTime)
-        {
-            OnGameClear?.Invoke();
-        }
-    }
-    void PhaseTimer()
-    {
-        _phaseTimer += Time.deltaTime;
-
-        if(_phaseTimer >= _phaseTime)
-        {
-            _phaseTimer = 0;
-            Debug.Log($"{this.name} : <color=red>フェーズ{_phaseCount}</color>");
-
-            if (_phaseCount < _timerLimit.Length - 1)
-            _phaseCount++;
         }
     }
     public void SetPlayer(PlayerController p)

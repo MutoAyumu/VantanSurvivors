@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// 敵のリストを所持・配置を管理
+/// </summary>
 public class EnemyManager : Singleton<EnemyManager>
 {
     List<EnemyBase> _enemies = new List<EnemyBase>();
