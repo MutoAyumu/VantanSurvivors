@@ -12,12 +12,17 @@ public class EnemyManager : Singleton<EnemyManager>
     [SerializeField] EnemyBase _prefab = null;
     [SerializeField] Transform _root = null;
 
+    [Header("フェーズごとに出す敵を設定する")]
+    [SerializeField] PhaseEnemyList[] _phaseEnemies = default;
+
     float _cRad = 0.0f;
     Vector3 _popPos = new Vector3(0, 0, 0);
 
     ObjectPool<EnemyBase> _enemyPool = new ObjectPool<EnemyBase>();
 
     GameManager _gameManager;
+
+    static public List<EnemyBase> Enemies { get => Instance._enemies;}
 
     private void Awake()
     {
@@ -33,7 +38,11 @@ public class EnemyManager : Singleton<EnemyManager>
 
     void Spawn()
     {
-        var script = _enemyPool.Instantiate();
+        var phaseEnemy = _phaseEnemies[Mathf.Clamp(GameManager.PhaseCount, 0, _phaseEnemies.Length - 1)].Enemies;
+        var length = phaseEnemy.Length;
+        var status = phaseEnemy[Random.Range(0, length)];
+        var script = _enemyPool.Instantiate(status);
+
         if (!script)
         {
             Debug.Log($"{this.name} : <color=blue>空になりました</color>");
@@ -41,8 +50,15 @@ public class EnemyManager : Singleton<EnemyManager>
         }
 
         _cRad = Random.Range(360f, 0f);
-        _popPos.x = GameManager.Player.transform.position.x + _lenght * Mathf.Cos(_cRad);
-        _popPos.y = GameManager.Player.transform.position.y + _lenght * Mathf.Sin(_cRad);
+        _popPos.x = PlayerManager.Player.transform.position.x + _lenght * Mathf.Cos(_cRad);
+        _popPos.y = PlayerManager.Player.transform.position.y + _lenght * Mathf.Sin(_cRad);
         script.transform.position = _popPos;
     }
+}
+[System.Serializable]
+public class PhaseEnemyList
+{
+    [SerializeField] EnemyStatus[] _enemies = default;
+
+    public EnemyStatus[] Enemies { get => _enemies;}
 }

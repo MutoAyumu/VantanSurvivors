@@ -99,6 +99,6 @@ public class TestEnemyPoolBase : MonoBehaviour
     }
     float PlayerDistance(Transform t1)
     {
-        return Vector2.Distance(t1.position, GameManager.Player.transform.position);
+        return Vector2.Distance(t1.position, PlayerManager.Player.transform.position);
     }
 }

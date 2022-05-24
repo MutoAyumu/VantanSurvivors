@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8cf6ebe97e0712146a69727ebdd34deb, type: 3}
-  m_Name: TestEnemy
+  m_Name: TestEnemy1
   m_EditorClassIdentifier: 
-  _hp: 0
+  _hp: 2
   _speed: 0.5
-  _power: 0
+  _power: 1
   _sprite: {fileID: -2413806693520163455, guid: ac64e555f9a55f146aa857c092571667, type: 3}

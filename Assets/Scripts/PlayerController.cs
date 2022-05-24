@@ -10,8 +10,8 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Instance.SetPlayer(this);
         _playerManager = PlayerManager.Instance;
+        _playerManager.SetPlayer(this);
     }
     private void Update()
     {

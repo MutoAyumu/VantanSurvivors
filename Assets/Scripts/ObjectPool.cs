@@ -64,4 +64,19 @@ public class ObjectPool<T> where T : UnityEngine.Object, IObjectPool
 
         return ret;
     }
+    public T Instantiate(EnemyStatus status)
+    {
+        T ret = null;
+        for (int i = 0; i < Pool.Count; i++)
+        {
+            int index = (Index + i) % Pool.Count;
+            if (Pool[index].IsActive) continue;
+
+            Pool[index].Create(status);
+            ret = Pool[index];
+            break;
+        }
+
+        return ret;
+    }
 }

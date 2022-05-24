@@ -46,8 +46,8 @@ public class Spawner : MonoBehaviour
         }
 
         _cRad = UnityEngine.Random.Range(360f, 0f);
-        _popPos.x = GameManager.Player.transform.position.x + _lenght * Mathf.Cos(_cRad);
-        _popPos.y = GameManager.Player.transform.position.y + _lenght * Mathf.Sin(_cRad);
+        _popPos.x = PlayerManager.Player.transform.position.x + _lenght * Mathf.Cos(_cRad);
+        _popPos.y = PlayerManager.Player.transform.position.y + _lenght * Mathf.Sin(_cRad);
         script.transform.position = _popPos;
     }
 }
