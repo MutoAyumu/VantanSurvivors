@@ -5,11 +5,11 @@ using System.Linq;
 
 public class MagicBulletSkill : ISkill
 {
-    float _shotInterval = 0.5f;
+    float _shotInterval = 2f;
     int _skillLevel = 0;
     int _shotCount = 1;
 
-    SkillDef _skillId = SkillDef.ShotBullet;
+    SkillDef _skillId = SkillDef.MagicBullet;
     ObjectPool<MagicBullet> _bulletPool = new ObjectPool<MagicBullet>();
     Timer _timer = new Timer();
 
@@ -23,7 +23,7 @@ public class MagicBulletSkill : ISkill
         var prefab = Resources.Load<MagicBullet>("MagicBullet");
         _bulletPool.SetBaseObj(prefab, root);
         _bulletPool.SetCapacity(100);
-        Debug.Log(EnemyManager.Instance);
+        Debug.Log($"<color=yellow>{this}</color> : スキルの追加");
     }
     public void Update()
     {
@@ -47,6 +47,8 @@ public class MagicBulletSkill : ISkill
     public void Levelup()
     {
         _skillLevel++;
-        _timer.Setup(_shotInterval);
+        _shotInterval -= 0.5f;
+        _timer.Setup(Mathf.Max(_shotInterval, 0.5f));
+        Debug.Log($"<color=yellow>{this}</color> : レベルアップ{_skillLevel}");
     }
 }

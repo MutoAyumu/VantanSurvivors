@@ -6,7 +6,7 @@ public class MagicBullet : BulletBase
 {
     EnemyBase _target;
 
-    public override void Shoot(EnemyBase enemy)
+    public void Shoot(EnemyBase enemy)
     {
         if (_target != null) return;
 
@@ -22,7 +22,9 @@ public class MagicBullet : BulletBase
             this.transform.up = dir;
 
             if (!_target.IsActive)
+            {
                 _target = null;
+            }
         }
         else
         {

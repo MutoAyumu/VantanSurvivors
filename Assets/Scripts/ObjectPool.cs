@@ -46,7 +46,7 @@ public class ObjectPool<T> where T : UnityEngine.Object, IObjectPool
             Pooling(Obj);
         }
 
-        Debug.Log(this + $" : {size}ŒÂ¶¬I—¹");
+        Debug.Log($"<color=cyan>{this.BaseObj.name}</color> : {size}ŒÂ¶¬I—¹");
     }
 
     public T Instantiate()

@@ -71,10 +71,6 @@ public class BulletBase : MonoBehaviour, IObjectPool
 
         }
     }
-    public virtual void Shoot(EnemyBase enemy)
-    {
-
-    }
     protected virtual void OnUpdate()
     {
 

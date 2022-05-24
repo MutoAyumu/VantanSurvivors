@@ -13,6 +13,9 @@ public class EnemyManager : Singleton<EnemyManager>
     [Header("フェーズごとに出す敵を設定する")]
     [SerializeField] PhaseEnemyList[] _phaseEnemies = default;
 
+    [Header("敵のログ表示フラグ")]
+    [SerializeField] bool _isDebugLog;
+
     float _cRad = 0.0f;
     Vector3 _popPos = new Vector3(0, 0, 0);
 
@@ -21,6 +24,7 @@ public class EnemyManager : Singleton<EnemyManager>
     GameManager _gameManager;
 
     static public List<EnemyBase> Enemies { get => Instance._enemies;}
+    public bool DebugLog { get => _isDebugLog;}
 
     protected override void OnAwake()
     {

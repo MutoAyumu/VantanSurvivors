@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DamageArea : ISkill
+public class DamageAreaSkill : ISkill
 {
     int _skillLevel = 0;
     float _interval = 1f;
@@ -18,6 +18,7 @@ public class DamageArea : ISkill
     public void Setup()
     {
         _timer.Setup(_interval);
+        Debug.Log($"<color=yellow>{this}</color> : スキルの追加");
     }
     public void Update()
     {
@@ -47,5 +48,7 @@ public class DamageArea : ISkill
     {
         _skillLevel++;
         _area += 0.1f;
+        Mathf.Min(_area, 5f);
+        Debug.Log($"<color=yellow>{this}</color> : レベルアップ{_skillLevel}");
     }
 }
