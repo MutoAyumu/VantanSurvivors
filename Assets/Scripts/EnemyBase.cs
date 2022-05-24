@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyBase : MonoBehaviour, IObjectPool
+public class EnemyBase : MonoBehaviour, IObjectPool, IDamage
 {
-    [SerializeField] EnemyStatus _status = default;
     [SerializeField] float _radius = 0.5f;
 
     float _speed;
+    float _hp;
+    float _power;
     Transform _player = default;
     SpriteRenderer _sprite;
     Rigidbody2D _rb;
@@ -34,8 +35,7 @@ public class EnemyBase : MonoBehaviour, IObjectPool
     }
     private void Start()
     {
-        _speed = _status.Speed;
-        _player = GameManager.Player.transform;
+        _player = PlayerManager.Player.transform;
     }
     private void Update()
     {
@@ -57,10 +57,17 @@ public class EnemyBase : MonoBehaviour, IObjectPool
     }
     public void Create()
     {
+
+    }
+    public void Create(EnemyStatus status)
+    {
         _sprite.enabled = true;
-        _sprite.sprite = _status.Sprite;
+        _sprite.sprite = status.Sprite;
         _rb.simulated = true;
         _isActive = true;
+        _speed = status.Speed;
+        _hp = status.Hp;
+        _power = status.Power;
     }
     public void Destroy()
     {
@@ -83,6 +90,16 @@ public class EnemyBase : MonoBehaviour, IObjectPool
         {
             _rb.simulated = true;
             _isPause = false;
+        }
+    }
+    public void Damage(float damage)
+    {
+        _hp -= damage;
+        Debug.Log($"{this.name} : ダメージを受けた({damage}) : 残りHP {_hp}");
+
+        if(_hp <= 0)
+        {
+            Destroy();
         }
     }
 }

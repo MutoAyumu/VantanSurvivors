@@ -9,6 +9,9 @@ using System.Linq;
 public class PlayerManager : Singleton<PlayerManager>
 {
     List<ISkill> _skill = new List<ISkill>();
+    PlayerController _player = default;
+
+    static public PlayerController Player { get => Instance._player; }
 
     public List<ISkill> Skill { get => _skill;}
 
@@ -30,11 +33,16 @@ public class PlayerManager : Singleton<PlayerManager>
 
             switch((SkillDef)skillId)
             {
-                case SkillDef.ShotBullet:
-                    newSkill = new ShotBullet();
+                case SkillDef.MagicBullet:
+                    newSkill = new MagicBulletSkill();
                     break;
 
                 case SkillDef.DamageArea:
+                    newSkill = new DamageArea();
+                    break;
+
+                case SkillDef.ShotBullet:
+                    //newSkill
                     break;
             }
 
@@ -44,5 +52,9 @@ public class PlayerManager : Singleton<PlayerManager>
                 _skill.Add(newSkill);
             }
         }
+    }
+    public void SetPlayer(PlayerController p)
+    {
+        _player = p;
     }
 }

@@ -9,5 +9,6 @@ public interface IObjectPool
     bool IsActive { get; }
     void DisactiveForInstantiate();
     void Create();
+    void Create(EnemyStatus status);
     void Destroy();
 }

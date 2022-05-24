@@ -30,10 +30,8 @@ public class GameManager : Singleton<GameManager>
     bool _isClear;
     bool _isPause;
 
-    PlayerController _player = default;
-
-    static public PlayerController Player { get => Instance._player;}
     public bool IsClear { get => _isClear;}
+    static public int PhaseCount { get => Instance._phaseCount;}
 
     private void Start()
     {
@@ -92,10 +90,6 @@ public class GameManager : Singleton<GameManager>
                 OnResume?.Invoke();
             }
         }
-    }
-    public void SetPlayer(PlayerController p)
-    {
-        _player = p;
     }
 
     void Clear()
