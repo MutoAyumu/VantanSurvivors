@@ -5,7 +5,7 @@ using System.Linq;
 
 public class MagicBulletSkill : ISkill
 {
-    float _shotInterval = 1;
+    float _shotInterval = 0.5f;
     int _skillLevel = 0;
     int _shotCount = 1;
 
@@ -23,15 +23,15 @@ public class MagicBulletSkill : ISkill
         var prefab = Resources.Load<MagicBullet>("MagicBullet");
         _bulletPool.SetBaseObj(prefab, root);
         _bulletPool.SetCapacity(100);
+        Debug.Log(EnemyManager.Instance);
     }
     public void Update()
     {
         if(_timer.RunTimer())
         {
             var list = EnemyManager.Enemies;
-            EnemyBase[] targets = new EnemyBase[_shotCount];
 
-            for(int i = 0; i < targets.Length; i++)
+            for(int i = 0; i < _shotCount; i++)
             {
                 //ƒvƒŒƒCƒ„[‚Éˆê”Ô‹ß‚¢“G‚ð’T‚µ‚Ä‚­‚é
                 var target = list.Where(e => e.IsActive).OrderBy(e => 

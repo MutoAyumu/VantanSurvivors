@@ -9,8 +9,6 @@ public class EnemyManager : Singleton<EnemyManager>
     List<EnemyBase> _enemies = new List<EnemyBase>();
     [SerializeField] int _createLimit = 1000;
     [SerializeField] float _lenght = 50;
-    [SerializeField] EnemyBase _prefab = null;
-    [SerializeField] Transform _root = null;
 
     [Header("フェーズごとに出す敵を設定する")]
     [SerializeField] PhaseEnemyList[] _phaseEnemies = default;
@@ -24,13 +22,16 @@ public class EnemyManager : Singleton<EnemyManager>
 
     static public List<EnemyBase> Enemies { get => Instance._enemies;}
 
-    private void Awake()
+    protected override void OnAwake()
     {
         _gameManager = GameManager.Instance;
     }
     private void Start()
     {
-        _enemyPool.SetBaseObj(_prefab, _root);
+        var root = new GameObject("EnemyRoot").transform;
+        var prefab = Resources.Load<EnemyBase>("BaseEnemy");
+
+        _enemyPool.SetBaseObj(prefab, root);
         _enemyPool.SetCapacity(_createLimit);
         _enemies = _enemyPool.PoolList;
         _gameManager.OnSetEnemy += Spawn;

@@ -313,11 +313,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _timerText: {fileID: 1316929447}
   _timerLimit:
-  - 1
-  - 0.5
   - 0.1
-  _gameEndTime: 30
-  _phaseTime: 10
+  - 0.1
+  - 0.1
+  _phaseTime: 60
 --- !u!4 &888240720
 Transform:
   m_ObjectHideFlags: 0
@@ -759,8 +758,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _createLimit: 1000
   _lenght: 10
-  _prefab: {fileID: 1080961266700516059, guid: 0b7b8149af5336048a939ca3146da82c, type: 3}
-  _root: {fileID: 130122410}
   _phaseEnemies:
   - _enemies:
     - {fileID: 11400000, guid: eddc978a5d4540b42b8dd7a7fd395b9b, type: 2}
