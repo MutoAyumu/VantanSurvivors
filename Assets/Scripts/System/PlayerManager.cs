@@ -38,11 +38,15 @@ public class PlayerManager : Singleton<PlayerManager>
                     break;
 
                 case SkillDef.DamageArea:
-                    newSkill = new DamageArea();
+                    newSkill = new DamageAreaSkill();
                     break;
 
                 case SkillDef.ShotBullet:
-                    //newSkill
+                    newSkill = new ShotBulletSkill();
+                    break;
+
+                case SkillDef.ReflectingBullet:
+                    newSkill = new ReflectedBulletSkill();
                     break;
             }
 

@@ -95,11 +95,13 @@ public class EnemyBase : MonoBehaviour, IObjectPool, IDamage
     public void Damage(float damage)
     {
         _hp -= damage;
-        Debug.Log($"{this.name} : ダメージを受けた({damage}) : 残りHP {_hp}");
 
         if(_hp <= 0)
         {
             Destroy();
         }
+
+        if(EnemyManager.Instance.DebugLog)
+        Debug.Log($"{this.name} : ダメージを受けた({damage}) : 残りHP {_hp}");
     }
 }

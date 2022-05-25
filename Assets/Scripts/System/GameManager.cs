@@ -20,7 +20,7 @@ public class GameManager : Singleton<GameManager>
 
     [SerializeField, Tooltip("経過時間を表示するテキスト")] Text _timerText = default;
     [SerializeField, Tooltip("敵を生成するイベントを実行する時間")] float[] _timerLimit = default;
-    [SerializeField, Tooltip("ゲームの時間上限")] float _gameEndTime = 10f;
+    [Tooltip("ゲームの時間上限")] float _gameEndTime;
     [SerializeField, Tooltip("次のフェーズに遷るまでの時間")] float _phaseTime = 20f;
 
     Timer _timer = new Timer();
@@ -36,6 +36,7 @@ public class GameManager : Singleton<GameManager>
     private void Start()
     {
         OnGameClear += Clear;
+        _gameEndTime = _phaseTime * _timerLimit.Length;
 
         if(!_timerText)
         {
@@ -50,19 +51,19 @@ public class GameManager : Singleton<GameManager>
     {
         if (!_isPause)
         {
-            if(_timer.RunTimer())
+            if (_timerText)
+            {
+                var time = _gameTimer.ReturnTime();
+                _timerText.text = ((int)(time / 60)).ToString() + ":" + ((int)(time % 60)).ToString("00");
+            }
+
+            if (_timer.RunTimer())
             {
                 OnSetEnemy.Invoke();
             }
 
             if(_gameTimer.RunTimer())
             {
-                if (_timerText)
-                {
-                    var time = _timer.ReturnTime();
-                    _timerText.text = ((int)(time / 60)).ToString() + ":" + ((int)(time % 60)).ToString("00");
-                }
-
                 if (_isClear) return;
 
                 OnGameClear?.Invoke();

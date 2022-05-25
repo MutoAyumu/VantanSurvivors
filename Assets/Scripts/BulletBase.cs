@@ -5,35 +5,46 @@ using UnityEngine;
 public class BulletBase : MonoBehaviour, IObjectPool
 {
     SpriteRenderer _image = default;
-    protected Rigidbody2D _rb = default;
     Collider2D _col = default;
     [SerializeField] protected float _speed = 1f;
+    [SerializeField] float _destroyLimit = 5f;
 
-    private void Start()
+    protected Timer _timer = new Timer();
+
+    private void Update()
     {
-        _image = GetComponent<SpriteRenderer>();
-        _rb = GetComponent<Rigidbody2D>();
-        _col = GetComponent<Collider2D>();
+        if (!IsActive) return;
+
+        OnUpdate();
+
+        if(_timer.RunTimer())
+        {
+            Destroy();
+        }
     }
     private void OnEnable()
     {
 
     }
+
     bool _isActive = false;
     public bool IsActive => _isActive;
     public void DisactiveForInstantiate()
     {
+        _image = GetComponent<SpriteRenderer>();
+        _col = GetComponent<Collider2D>();
+
         _image.enabled = false;
         _isActive = false;
-        _rb.simulated = false;
         _col.enabled = false;
     }
     public void Create()
     {
         _image.enabled = true;
         _isActive = true;
-        _rb.simulated = true;
         _col.enabled = true;
+
+        _timer.Setup(_destroyLimit);
     }
     public void Create(EnemyStatus status)
     {
@@ -43,7 +54,6 @@ public class BulletBase : MonoBehaviour, IObjectPool
     {
         _image.enabled = false;
         _isActive = false;
-        _rb.simulated = false;
         _col.enabled = false;
     }
 
@@ -61,7 +71,7 @@ public class BulletBase : MonoBehaviour, IObjectPool
 
         }
     }
-    public virtual void Shoot(EnemyBase enemy)
+    protected virtual void OnUpdate()
     {
 
     }
