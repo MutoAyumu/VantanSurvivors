@@ -15,4 +15,4 @@ MonoBehaviour:
   _hp: 2
   _speed: 1
   _power: 1
-  _sprite: {fileID: 7482667652216324306, guid: b74edc836505d134e9091f8610548ce2, type: 3}
+  _animName: Slime
