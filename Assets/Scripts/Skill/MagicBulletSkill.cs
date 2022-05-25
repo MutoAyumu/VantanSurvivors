@@ -5,7 +5,7 @@ using System.Linq;
 
 public class MagicBulletSkill : ISkill
 {
-    float _shotInterval = 2f;
+    float _shotInterval;
     int _skillLevel = 0;
     int _shotCount = 1;
 
@@ -17,6 +17,7 @@ public class MagicBulletSkill : ISkill
 
     public void Setup()
     {
+        _shotInterval = 0.5f * 6;
         _timer.Setup(_shotInterval);
 
         var root = new GameObject("MagicBulletRoot").transform;
@@ -46,6 +47,8 @@ public class MagicBulletSkill : ISkill
     }
     public void Levelup()
     {
+        if (_skillLevel >= 5) return;
+
         _skillLevel++;
         _shotInterval -= 0.5f;
         _timer.Setup(Mathf.Max(_shotInterval, 0.5f));

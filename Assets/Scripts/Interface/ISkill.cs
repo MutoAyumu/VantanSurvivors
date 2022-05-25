@@ -19,4 +19,5 @@ public enum SkillDef
     MagicBullet = 1,
     DamageArea = 2,
     ShotBullet = 3,
+    ReflectingBullet = 4,
 }

@@ -16,9 +16,6 @@ public class EnemyManager : Singleton<EnemyManager>
     [Header("敵のログ表示フラグ")]
     [SerializeField] bool _isDebugLog;
 
-    float _cRad = 0.0f;
-    Vector3 _popPos = new Vector3(0, 0, 0);
-
     ObjectPool<EnemyBase> _enemyPool = new ObjectPool<EnemyBase>();
 
     GameManager _gameManager;
@@ -54,10 +51,11 @@ public class EnemyManager : Singleton<EnemyManager>
             return;
         }
 
-        _cRad = Random.Range(360f, 0f);
-        _popPos.x = PlayerManager.Player.transform.position.x + _lenght * Mathf.Cos(_cRad);
-        _popPos.y = PlayerManager.Player.transform.position.y + _lenght * Mathf.Sin(_cRad);
-        script.transform.position = _popPos;
+        var cRad = Random.Range(360f, 0f);
+        Vector3 popPos = new Vector3(0, 0, 0);
+        popPos.x = PlayerManager.Player.transform.position.x + _lenght * Mathf.Cos(cRad);
+        popPos.y = PlayerManager.Player.transform.position.y + _lenght * Mathf.Sin(cRad);
+        script.transform.position = popPos;
     }
 }
 [System.Serializable]

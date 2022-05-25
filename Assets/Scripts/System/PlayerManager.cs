@@ -44,6 +44,10 @@ public class PlayerManager : Singleton<PlayerManager>
                 case SkillDef.ShotBullet:
                     newSkill = new ShotBulletSkill();
                     break;
+
+                case SkillDef.ReflectingBullet:
+                    newSkill = new ReflectedBulletSkill();
+                    break;
             }
 
             if(newSkill != null)

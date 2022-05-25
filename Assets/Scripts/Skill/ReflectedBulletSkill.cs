@@ -2,17 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShotBulletSkill : ISkill
+public class ReflectedBulletSkill : ISkill
 {
     float _shotInterval;
     int _skillLevel = 0;
     int _shotCount = 1;
 
-    SkillDef _skillId = SkillDef.ShotBullet;
-    ObjectPool<ShotBullet> _bulletPool = new ObjectPool<ShotBullet>();
+    SkillDef _skillId = SkillDef.ReflectingBullet;
+    ObjectPool<ReflectingBullets> _bulletPool = new ObjectPool<ReflectingBullets>();
     Timer _timer = new Timer();
-
-    Vector2[] _vectors = new Vector2[4] { new Vector2(1, 1), new Vector2(-1, 1), new Vector2(1, -1), new Vector2(-1, -1)};
 
     public SkillDef SkillId { get => _skillId; }
 
@@ -21,8 +19,8 @@ public class ShotBulletSkill : ISkill
         _shotInterval = 0.5f * 6;
         _timer.Setup(_shotInterval);
 
-        var root = new GameObject("ShotBulletRoot").transform;
-        var prefab = Resources.Load<ShotBullet>("ShotBullet");
+        var root = new GameObject("ReflectionBulletRoot").transform;
+        var prefab = Resources.Load<ReflectingBullets>("ReflectionBullet");
         _bulletPool.SetBaseObj(prefab, root);
         _bulletPool.SetCapacity(100);
         Debug.Log($"<color=yellow>{this}</color> : ƒXƒLƒ‹‚Ì’Ç‰Á");
@@ -31,15 +29,16 @@ public class ShotBulletSkill : ISkill
     {
         if (_timer.RunTimer())
         {
-            for(int i = 0; i < _shotCount; i++)
-            {
-                for(int j = 0; j < 4; j++)
-                {
-                    var script = _bulletPool.Instantiate();
-                    script.transform.position = PlayerManager.Player.transform.position;
-                    script.Shoot(_vectors[j]);
-                }
-            }
+            var cRad = Random.Range(360f, 0f);
+            Vector3 dir = new Vector3(0, 0, 0);
+
+            var script = _bulletPool.Instantiate();
+            script.transform.position = PlayerManager.Player.transform.position;
+
+            dir.x = script.transform.position.x + Mathf.Cos(cRad);
+            dir.y = script.transform.position.y + Mathf.Sin(cRad);
+
+            script.Shoot(dir);
         }
     }
     public void Levelup()
