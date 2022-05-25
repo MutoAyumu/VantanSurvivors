@@ -10,7 +10,7 @@ public class EnemyBase : MonoBehaviour, IObjectPool, IDamage
     float _hp;
     float _power;
     Transform _player = default;
-    SpriteRenderer _sprite;
+    Animator _anim;
     Rigidbody2D _rb;
     GameManager _gameManager;
     bool _isPause;
@@ -20,8 +20,8 @@ public class EnemyBase : MonoBehaviour, IObjectPool, IDamage
     private void Awake()
     {
         _gameManager = GameManager.Instance;
-        _sprite = this.GetComponent<SpriteRenderer>();
         _rb = this.GetComponent<Rigidbody2D>();
+        _anim = this.GetComponent<Animator>();
     }
     private void OnEnable()
     {
@@ -45,13 +45,14 @@ public class EnemyBase : MonoBehaviour, IObjectPool, IDamage
         dir.Normalize();
 
         transform.position += dir * _speed * Time.deltaTime;
+
+        Flip(dir.x);
     }
 
     bool _isActive = false;
     public bool IsActive => _isActive;
     public void DisactiveForInstantiate()
     {
-        _sprite.enabled = false;
         _rb.simulated = false;
         _isActive = false;
     }
@@ -61,8 +62,7 @@ public class EnemyBase : MonoBehaviour, IObjectPool, IDamage
     }
     public void Create(EnemyStatus status)
     {
-        _sprite.enabled = true;
-        _sprite.sprite = status.Sprite;
+        _anim.Play(status.AnimName);
         _rb.simulated = true;
         _isActive = true;
         _speed = status.Speed;
@@ -71,7 +71,7 @@ public class EnemyBase : MonoBehaviour, IObjectPool, IDamage
     }
     public void Destroy()
     {
-        _sprite.enabled = false;
+        _anim.Play("Enabled");
         _rb.simulated = false;
         _isActive = false;
     }
@@ -103,5 +103,18 @@ public class EnemyBase : MonoBehaviour, IObjectPool, IDamage
 
         if(EnemyManager.Instance.DebugLog)
         Debug.Log($"{this.name} : ダメージを受けた({damage}) : 残りHP {_hp}");
+    }
+    void Flip(float h)
+    {
+        if (h > 0)
+        {
+
+            this.transform.localScale = new Vector3(Mathf.Abs(this.transform.localScale.x), this.transform.localScale.y, this.transform.localScale.z);
+        }
+        else if (h < 0)
+        {
+
+            this.transform.localScale = new Vector3(-1 * Mathf.Abs(this.transform.localScale.x), this.transform.localScale.y, this.transform.localScale.z);
+        }
     }
 }

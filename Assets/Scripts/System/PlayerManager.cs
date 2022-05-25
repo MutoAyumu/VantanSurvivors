@@ -10,6 +10,7 @@ public class PlayerManager : Singleton<PlayerManager>
 {
     List<ISkill> _skill = new List<ISkill>();
     PlayerController _player = default;
+    [SerializeField] int _startSkill = 1;
 
     static public PlayerController Player { get => Instance._player; }
 
@@ -17,7 +18,7 @@ public class PlayerManager : Singleton<PlayerManager>
 
     protected override void OnAwake()
     {
-        AddSkill(1);
+        AddSkill(_startSkill);
     }
     public void AddSkill(int skillId)
     {

@@ -15,4 +15,4 @@ MonoBehaviour:
   _hp: 1
   _speed: 0.5
   _power: 1
-  _sprite: {fileID: -2413806693520163455, guid: ac64e555f9a55f146aa857c092571667, type: 3}
+  _animName: Bat
