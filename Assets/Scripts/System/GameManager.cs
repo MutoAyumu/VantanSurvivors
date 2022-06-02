@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 using UnityEngine.UI;
 /// <summary>
 /// ゲーム時間の管理・ゲームオーバー・クリアのイベント管理・フェーズの管理
@@ -29,9 +30,14 @@ public class GameManager : Singleton<GameManager>
     int _phaseCount;
     bool _isClear;
     bool _isPause;
+    bool _isEnemyDebugLogFlag;
+
+    List<EnemyBase> _enemies = new List<EnemyBase>();
 
     public bool IsClear { get => _isClear;}
     static public int PhaseCount { get => Instance._phaseCount;}
+    public bool EnemyDebugLog { get => _isEnemyDebugLogFlag;}
+    public List<EnemyBase> Enemies { get => Instance._enemies; }
 
     private void Start()
     {
@@ -59,7 +65,7 @@ public class GameManager : Singleton<GameManager>
 
             if (_timer.RunTimer())
             {
-                OnSetEnemy.Invoke();
+                OnSetEnemy?.Invoke();
             }
 
             if(_gameTimer.RunTimer())
@@ -97,5 +103,13 @@ public class GameManager : Singleton<GameManager>
     {
         _isClear = true;
         Debug.Log($"{this.name} : <color=red>ゲームクリア</color>");
+    }
+    public void SetUp()
+    {
+        _enemies = FindObjectsOfType<EnemyBase>(true).ToList();
+    }
+    public void SetEnemyFlag(bool flag)
+    {
+        _isEnemyDebugLogFlag = flag;
     }
 }
