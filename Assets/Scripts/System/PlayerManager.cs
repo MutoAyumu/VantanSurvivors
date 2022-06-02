@@ -6,21 +6,30 @@ using System.Linq;
 /// <summary>
 /// 経験値・レベル・武器の管理
 /// </summary>
-public class PlayerManager : Singleton<PlayerManager>
+public class PlayerManager
 {
+    static PlayerManager _instance = new PlayerManager();
+    static public PlayerController Player { get => Instance._player; }
+
     List<ISkill> _skill = new List<ISkill>();
     PlayerController _player = default;
     [SerializeField] int _startSkill = 1;
 
-    static public PlayerController Player { get => Instance._player; }
-
     public List<ISkill> Skill { get => _skill;}
+    public static PlayerManager Instance { get => _instance;}
 
-    protected override void OnAwake()
+    public void SetUp()
     {
         AddSkill(_startSkill);
     }
-    public void AddSkill(int skillId)
+
+    public void SetSkillListener(CustomButton b)
+    {
+        var button = b;
+        button.OnClickCallback += AddSkill;
+    }
+
+    void AddSkill(int skillId)
     {
         var having = _skill.Where(s => s.SkillId == (SkillDef)skillId);
 

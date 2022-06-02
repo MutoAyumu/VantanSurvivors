@@ -21,6 +21,7 @@ public class TestSpawner : MonoBehaviour
 
     private void Start()
     {
+        
         //_enemyPool.SetBaseObj(_prefab, _root);
         //_enemyPool.SetCapacity(_createLimit);
         //EnemyManager.Instance.SetList(_enemyPool.PoolList);
