@@ -101,7 +101,7 @@ public class EnemyBase : MonoBehaviour, IObjectPool, IDamage
             Destroy();
         }
 
-        if(EnemyManager.Instance.DebugLog)
+        if(_gameManager.EnemyDebugLog)
         Debug.Log($"{this.name} : ダメージを受けた({damage}) : 残りHP {_hp}");
     }
     void Flip(float h)

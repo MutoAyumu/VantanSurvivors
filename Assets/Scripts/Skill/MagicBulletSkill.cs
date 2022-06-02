@@ -12,6 +12,7 @@ public class MagicBulletSkill : ISkill
     SkillDef _skillId = SkillDef.MagicBullet;
     ObjectPool<MagicBullet> _bulletPool = new ObjectPool<MagicBullet>();
     Timer _timer = new Timer();
+    GameManager _gameManager;
 
     public SkillDef SkillId { get => _skillId;}
 
@@ -19,6 +20,7 @@ public class MagicBulletSkill : ISkill
     {
         _shotInterval = 0.5f * 6;
         _timer.Setup(_shotInterval);
+        _gameManager = GameManager.Instance;
 
         var root = new GameObject("MagicBulletRoot").transform;
         var prefab = Resources.Load<MagicBullet>("MagicBullet");
@@ -30,7 +32,7 @@ public class MagicBulletSkill : ISkill
     {
         if(_timer.RunTimer())
         {
-            var list = EnemyManager.Enemies;
+            var list = _gameManager.Enemies;
 
             for(int i = 0; i < _shotCount; i++)
             {
