@@ -4,23 +4,33 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] int _createLimit = 1000;
-    [SerializeField] float _lenght = 50;
+    [Header("生成に関する情報")]
+    [SerializeField, Tooltip("Start時に作成する敵の数")] int _createLimit = 1000;
+    [SerializeField, Tooltip("生成地点のプレイヤーからの距離")] float _lenght = 50;
 
     [Header("フェーズごとに出す敵を設定する")]
     [SerializeField] PhaseEnemyList[] _phaseEnemies = default;
+
+    [Header("フェーズごとに敵を生成する時間")]
+    [SerializeField] float[] _spawneTimes;
+    Timer _spawneTimer = new Timer();
+
+    [Header("次のフェーズに遷るまでの時間")]
+    [SerializeField] float _phaseTime = 20f;
+    Timer _phaseTimer = new Timer();
 
     [Header("敵のログ表示フラグ")]
     [SerializeField] bool _isDebugLog;
 
     ObjectPool<EnemyBase> _enemyPool = new ObjectPool<EnemyBase>();
 
+    public event System.Action OnPhaseCallback;
+
     GameManager _gameManager;
 
-    private void Awake()
-    {
+    public float[] SpawneTimes { get => _spawneTimes;}
+    public float PhaseTime { get => _phaseTime;}
 
-    }
     private void Start()
     {
         _gameManager = GameManager.Instance;
@@ -33,8 +43,30 @@ public class Spawner : MonoBehaviour
 
         _gameManager.SetUp();
         _gameManager.SetEnemyFlag(_isDebugLog);
-        _gameManager.OnSetEnemy += Spawn;
+        _gameManager.SetPhaseListener(this);
+
+        _phaseTimer.Setup(_phaseTime);
     }
+    private void Update()
+    {
+        if(_spawneTimer.RunTimer())
+        {
+            Spawn();
+        }
+
+        if(_phaseTimer.RunTimer())
+        {
+            var count = GameManager.PhaseCount;
+
+            if (count < _spawneTimes.Length - 1)
+            {
+                _spawneTimer.Setup(_spawneTimes[count]);
+                OnPhaseCallback?.Invoke();
+                Debug.Log($"{this} : <color=red>フェーズ{count}</color>");
+            }
+        }
+    }
+
     void Spawn()
     {
         var phaseEnemy = _phaseEnemies[Mathf.Clamp(GameManager.PhaseCount, 0, _phaseEnemies.Length - 1)].Enemies;

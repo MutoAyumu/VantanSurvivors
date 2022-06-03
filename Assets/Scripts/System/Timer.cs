@@ -23,8 +23,4 @@ public class Timer
 
         return false;
     }
-    public float ReturnTime()
-    {
-        return _timer;
-    }
 }
