@@ -14,6 +14,9 @@ public class PlayerController : MonoBehaviour
     [Header("セットするもの")]
     [SerializeField] Slider _hpBar = default;
 
+    [SerializeField] bool _isDebugLog;
+    [SerializeField] bool _isGodMode;
+
     PlayerManager _playerManager;
     SpriteRenderer _sprite;
 
@@ -50,11 +53,17 @@ public class PlayerController : MonoBehaviour
 
         _playerManager.Skill.ForEach(s => s.Update());
     }
-    public void Damage(int damage)
+    public void Damage(float damage)
     {
-        _currentHp = Mathf.Clamp(_currentHp - damage, 0, _hp);
+        if (!_isGodMode)
+        {
+            _currentHp = Mathf.Clamp(_currentHp - damage, 0, _hp);
+        }
 
-        if (!_hpBar) return;
+        if(!_isDebugLog)
+        Debug.Log($"{this.name} : ダメージを受けた({damage}) : 残りHP {_currentHp}");
+
+        if (_hpBar)
         _hpBar.DOValue(_currentHp / _hp, 0.1f).SetEase(Ease.InOutSine);
     }
     void Flip(float h)

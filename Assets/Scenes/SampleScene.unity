@@ -1384,10 +1384,7 @@ MonoBehaviour:
   - _enemies:
     - {fileID: 11400000, guid: eddc978a5d4540b42b8dd7a7fd395b9b, type: 2}
     - {fileID: 11400000, guid: 0ef86b08e4dfcc34aa78780c53e50ef6, type: 2}
-  _spawneTimes:
-  - 0.5
-  - 0.25
-  - 0.1
+  _spawnTimes: []
   _phaseTime: 20
   _isDebugLog: 0
 --- !u!4 &909058081
@@ -2177,12 +2174,12 @@ MonoBehaviour:
       - m_Target: {fileID: 1725547427}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
         m_MethodName: Damage
-        m_Mode: 3
+        m_Mode: 4
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 1
-          m_FloatArgument: 0
+          m_FloatArgument: 1
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
@@ -2413,9 +2410,11 @@ GameObject:
   - component: {fileID: 1725547425}
   - component: {fileID: 1725547427}
   - component: {fileID: 1725547428}
+  - component: {fileID: 1725547430}
+  - component: {fileID: 1725547429}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2503,6 +2502,8 @@ MonoBehaviour:
   _speed: 1
   _hp: 10
   _hpBar: {fileID: 398736538}
+  _isDebugLog: 1
+  _isGodMode: 1
 --- !u!95 &1725547428
 Animator:
   serializedVersion: 4
@@ -2523,6 +2524,43 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!58 &1725547429
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1725547424}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
+--- !u!50 &1725547430
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1725547424}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &1852204577
 GameObject:
   m_ObjectHideFlags: 0

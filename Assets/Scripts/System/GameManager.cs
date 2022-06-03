@@ -93,7 +93,7 @@ public class GameManager
     {
         spawner.OnPhaseCallback += PhaseCountUp;
 
-        _gameTimer.Setup(spawner.PhaseTime * spawner.SpawneTimes.Length);
+        _gameTimer.Setup(spawner.PhaseTime * spawner.SpawnTimes.Length);
     }
     
     void PhaseCountUp()

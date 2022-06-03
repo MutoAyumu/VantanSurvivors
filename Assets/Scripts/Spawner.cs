@@ -12,7 +12,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] PhaseEnemyList[] _phaseEnemies = default;
 
     [Header("フェーズごとに敵を生成する時間")]
-    [SerializeField] float[] _spawneTimes;
+    [SerializeField] float[] _spawnTimes;
     Timer _spawneTimer = new Timer();
 
     [Header("次のフェーズに遷るまでの時間")]
@@ -28,7 +28,7 @@ public class Spawner : MonoBehaviour
 
     GameManager _gameManager;
 
-    public float[] SpawneTimes { get => _spawneTimes;}
+    public float[] SpawnTimes { get => _spawnTimes;}
     public float PhaseTime { get => _phaseTime;}
 
     private void Start()
@@ -58,9 +58,9 @@ public class Spawner : MonoBehaviour
         {
             var count = GameManager.PhaseCount;
 
-            if (count < _spawneTimes.Length - 1)
+            if (count < _spawnTimes.Length - 1)
             {
-                _spawneTimer.Setup(_spawneTimes[count]);
+                _spawneTimer.Setup(_spawnTimes[count]);
                 OnPhaseCallback?.Invoke();
                 Debug.Log($"{this} : <color=red>フェーズ{count}</color>");
             }
