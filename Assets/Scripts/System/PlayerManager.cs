@@ -16,6 +16,9 @@ public class PlayerManager
 
     [SerializeField] int _startSkill = 1;
 
+    int _exp;
+    int _level = 1;
+
     bool _debugLogFlag;
 
     public List<ISkill> Skill { get => _skill;}
@@ -81,8 +84,13 @@ public class PlayerManager
     //経験値を取得した時に呼ばれる処理
     void GetExpPoint(int e)
     {
-        if(_debugLogFlag)
-        Debug.Log($"経験値を取得した : {e}");
+        _exp += e;
+
+        //一定の経験値が貯まるとレベルをあげる
+        //データテーブルを参照
+
+        if (_debugLogFlag)
+            Debug.Log($"経験値を取得した : 獲得経験値 {e} : 総合経験値 {_exp}");
     }
     public void SetExpListener(ExpPoint e)
     {
