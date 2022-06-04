@@ -13,10 +13,19 @@ public class PlayerManager
 
     List<ISkill> _skill = new List<ISkill>();
     PlayerController _player = default;
+
     [SerializeField] int _startSkill = 1;
+
+    int _exp;
+    int _level = 1;
+
+    bool _debugLogFlag;
 
     public List<ISkill> Skill { get => _skill;}
     public static PlayerManager Instance { get => _instance;}
+    public bool DebugLog { get => _debugLogFlag;}
+
+    private PlayerManager() { }
 
     public void SetUp()
     {
@@ -70,5 +79,26 @@ public class PlayerManager
     public void SetPlayer(PlayerController p)
     {
         _player = p;
+    }
+
+    //経験値を取得した時に呼ばれる処理
+    void GetExpPoint(int e)
+    {
+        _exp += e;
+
+        //一定の経験値が貯まるとレベルをあげる
+        //データテーブルを参照
+
+        if (_debugLogFlag)
+            Debug.Log($"経験値を取得した : 獲得経験値 {e} : 総合経験値 {_exp}");
+    }
+    public void SetExpListener(ExpPoint e)
+    {
+        e.OnGetEvent += GetExpPoint;
+    }
+    
+    public void SetLogFlag(bool flag)
+    {
+        _debugLogFlag = flag;
     }
 }

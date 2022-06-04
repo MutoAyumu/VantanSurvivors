@@ -11,6 +11,8 @@ public class ItemManager
 
     public static ItemManager Instance { get => _instance;}
 
+    private ItemManager() { }
+
     public void SetUp()
     {
         var exp = Resources.Load<ExpPoint>("ExpPoint");
@@ -18,7 +20,7 @@ public class ItemManager
         _expPoints.SetBaseObj(exp, expRoot);
         _expPoints.SetCapacity(100);
     }
-    public void SetExp(Transform transform)
+    public void SetExp(Transform transform)// ‚±‚±‚ ‚Æ‚Å’¼‚·‚©‚à
     {
         var e = _expPoints.Instantiate();
         e.transform.position = transform.position;
