@@ -32,6 +32,8 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         _playerManager.SetUp();
+        _playerManager.SetLogFlag(_isDebugLog);
+
         _currentHp = _hp;
 
         if (_hpBar)
@@ -60,7 +62,7 @@ public class PlayerController : MonoBehaviour
             _currentHp = Mathf.Clamp(_currentHp - damage, 0, _hp);
         }
 
-        if(!_isDebugLog)
+        if(_playerManager.DebugLog)
         Debug.Log($"{this.name} : ダメージを受けた({damage}) : 残りHP {_currentHp}");
 
         if (_hpBar)

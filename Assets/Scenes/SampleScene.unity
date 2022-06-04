@@ -1384,7 +1384,10 @@ MonoBehaviour:
   - _enemies:
     - {fileID: 11400000, guid: eddc978a5d4540b42b8dd7a7fd395b9b, type: 2}
     - {fileID: 11400000, guid: 0ef86b08e4dfcc34aa78780c53e50ef6, type: 2}
-  _spawnTimes: []
+  _spawnTimes:
+  - 0.5
+  - 0.25
+  - 0.1
   _phaseTime: 20
   _isDebugLog: 0
 --- !u!4 &909058081

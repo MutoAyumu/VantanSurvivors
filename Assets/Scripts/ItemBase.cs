@@ -16,6 +16,13 @@ public class ItemBase : MonoBehaviour, IObjectPool
     {
         _sprite = GetComponent<SpriteRenderer>();
         _collider = GetComponent<Collider2D>();
+
+        OnAwake();
+    }
+
+    protected virtual void OnAwake()
+    {
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

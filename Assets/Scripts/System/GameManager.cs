@@ -31,6 +31,8 @@ public class GameManager
 
     List<EnemyBase> _enemies = new List<EnemyBase>();
 
+    private GameManager() { }
+
     public bool IsClear { get => _isClear;}
     static public int PhaseCount { get => Instance._phaseCount;}
     public bool EnemyDebugLog { get => _isEnemyDebugLogFlag;}

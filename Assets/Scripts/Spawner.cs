@@ -27,6 +27,7 @@ public class Spawner : MonoBehaviour
     public event System.Action OnPhaseCallback;
 
     GameManager _gameManager;
+    ItemManager _itemManager;
 
     public float[] SpawnTimes { get => _spawnTimes;}
     public float PhaseTime { get => _phaseTime;}
@@ -34,6 +35,7 @@ public class Spawner : MonoBehaviour
     private void Start()
     {
         _gameManager = GameManager.Instance;
+        _itemManager = ItemManager.Instance;
 
         var root = new GameObject("EnemyRoot").transform;
         var prefab = Resources.Load<EnemyBase>("BaseEnemy");
@@ -44,6 +46,8 @@ public class Spawner : MonoBehaviour
         _gameManager.SetUp();
         _gameManager.SetEnemyFlag(_isDebugLog);
         _gameManager.SetPhaseListener(this);
+
+        _itemManager.SetUp();//‚±‚±ˆÚ“®‚·‚é‚©‚à
 
         _phaseTimer.Setup(_phaseTime);
     }
