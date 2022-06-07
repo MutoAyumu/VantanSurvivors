@@ -18,6 +18,7 @@ public class PlayerManager
 
     int _exp;
     int _level = 1;
+    int _nextLevelUpExp = 10;
 
     bool _debugLogFlag;
 
@@ -85,9 +86,15 @@ public class PlayerManager
     void GetExpPoint(int e)
     {
         _exp += e;
-
+        var nextExp = _nextLevelUpExp;
         //一定の経験値が貯まるとレベルをあげる
         //データテーブルを参照
+
+        if(_exp >= nextExp)
+        {
+            _nextLevelUpExp += _nextLevelUpExp;
+            _level++;
+        }
 
         if (_debugLogFlag)
             Debug.Log($"経験値を取得した : 獲得経験値 {e} : 総合経験値 {_exp}");
@@ -100,5 +107,17 @@ public class PlayerManager
     public void SetLogFlag(bool flag)
     {
         _debugLogFlag = flag;
+    }
+    public void LevelUpSelect(SkillTable table)
+    {
+        switch (table.Type)
+        {
+            case SelectType.Skill:
+                AddSkill(table.Id);
+                break;
+
+            case SelectType.Passive:
+                break;
+        }
     }
 }
