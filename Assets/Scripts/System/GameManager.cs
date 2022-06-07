@@ -33,11 +33,11 @@ public class GameManager
 
     private GameManager() { }
 
-    public bool IsClear { get => _isClear;}
-    static public int PhaseCount { get => Instance._phaseCount;}
-    public bool EnemyDebugLog { get => _isEnemyDebugLogFlag;}
+    public bool IsClear { get => _isClear; }
+    static public int PhaseCount { get => Instance._phaseCount; }
+    public bool EnemyDebugLog { get => _isEnemyDebugLogFlag; }
     public List<EnemyBase> Enemies { get => Instance._enemies; }
-    static public GameManager Instance { get => _instance;}
+    static public GameManager Instance { get => _instance; }
 
     public void SetUp()
     {
@@ -49,7 +49,7 @@ public class GameManager
         OnGameClear += Clear;
 
         _timerText = gameTime.TimerText;
-        
+
         gameTime.SetUpdateCallback(Update);
     }
 
@@ -68,7 +68,7 @@ public class GameManager
                 _timerText.text = ((int)(_timer / 60)).ToString() + ":" + ((int)(_timer % 60)).ToString("00");
             }
 
-            if(_gameTimer.RunTimer())
+            if (_gameTimer.RunTimer())
             {
                 if (_isClear) return;
 
@@ -78,7 +78,7 @@ public class GameManager
 
         if (Input.GetButtonDown("Cancel"))
         {
-            if(!_isPause)
+            if (!_isPause)
             {
                 _isPause = true;
                 OnPause?.Invoke();
@@ -97,12 +97,12 @@ public class GameManager
 
         _gameTimer.Setup(spawner.PhaseTime * spawner.SpawnTimes.Length);
     }
-    
+
     void PhaseCountUp()
     {
         _phaseCount++;
     }
-    
+
 
     void Clear()
     {
