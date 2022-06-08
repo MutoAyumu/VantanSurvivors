@@ -21,11 +21,13 @@ public class GameData
         switch ((SelectType)type)
         {
             case SelectType.Skill:
-                new SkillTable() { Type = SelectType.Skill, Id = id, Name = name, Level = level, Probability = probability };
+                var s = new SkillTable() { Type = SelectType.Skill, Id = id, Name = name, Level = level, Probability = probability };
+                SkillSelectTable.Add(s);
                 break;
 
             case SelectType.Passive:
-                new SkillTable() { Type = SelectType.Passive, Id = id, Name = name, Level = level, Probability = probability };
+                var p = new SkillTable() { Type = SelectType.Passive, Id = id, Name = name, Level = level, Probability = probability };
+                SkillSelectTable.Add(p);
                 break;
         }
 

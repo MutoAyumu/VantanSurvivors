@@ -10,13 +10,13 @@ public class SkillSelectUI : MonoBehaviour
     List<SkillTable> _skillTable = new List<SkillTable>();
     List<Text> _textList = new List<Text>();
 
-    CanvasGroup _canvas;
     PlayerManager _playerManager;
+    VerticalLayoutGroup _selectPanel;
 
     private void Awake()
     {
         _playerManager = PlayerManager.Instance;
-        _canvas = GetComponent<CanvasGroup>();
+        _selectPanel = GetComponentInChildren<VerticalLayoutGroup>();
     }
     private void Start()
     {
@@ -29,10 +29,12 @@ public class SkillSelectUI : MonoBehaviour
 
             b.OnSetEvent(OnClick, i);  //カスタムボタンに関数を登録
         }
+
+        SetActiveButton(false);
     }
     public void SelectEvent()
     {
-        _canvas.alpha = 1;
+        SetActiveButton(true);
         var list = GameData.SkillSelectTable.Where(s => _playerManager.Level >= s.Level);
         var total = list.Sum(s => s.Probability);
         var random = Random.Range(0, total);
@@ -51,6 +53,7 @@ public class SkillSelectUI : MonoBehaviour
                 {
                     _skillTable[i] = s;
                     _textList[i].text = s.Name;
+                    Debug.Log(s.Name);
 
                     list = list.Where(k => !(k.Type == s.Type && k.Id == s.Id));    //一回出たやつを除外
                     break;
@@ -63,6 +66,10 @@ public class SkillSelectUI : MonoBehaviour
     public void OnClick(int i)
     {
         _playerManager.LevelUpSelect(_skillTable[i]);
-        _canvas.alpha = 0;
+        SetActiveButton(false);
+    }
+    void SetActiveButton(bool flag)
+    {
+        _selectPanel.gameObject.SetActive(flag);
     }
 }
