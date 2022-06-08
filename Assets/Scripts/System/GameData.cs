@@ -8,6 +8,7 @@ public class GameData
 {
     //GSSを読み込んで分割
     //各データとして保存
+    static public List<SkillTable> SkillSelectTable = new List<SkillTable>();
 
     public GameData(string[] _dataTable)
     {

@@ -14,7 +14,7 @@ public class PlayerManager
     List<ISkill> _skill = new List<ISkill>();
     PlayerController _player = default;
 
-    [SerializeField] int _startSkill = 1;
+    SkillSelectUI _skillSelect;
 
     int _exp;
     int _level = 1;
@@ -25,18 +25,14 @@ public class PlayerManager
     public List<ISkill> Skill { get => _skill;}
     public static PlayerManager Instance { get => _instance;}
     public bool DebugLog { get => _debugLogFlag;}
+    public int Level { get => _level; set => _level = value; }
 
     private PlayerManager() { }
 
     public void SetUp()
     {
-        AddSkill(_startSkill);
-    }
-
-    public void SetSkillListener(CustomButton b)
-    {
-        var button = b;
-        button.OnClickCallback += AddSkill;
+        AddSkill(1);
+        _skillSelect = GameObject.FindObjectOfType<SkillSelectUI>();
     }
 
     void AddSkill(int skillId)

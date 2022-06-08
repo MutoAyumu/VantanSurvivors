@@ -31,12 +31,17 @@ public class CustomButton : MonoBehaviour,
     [SerializeField, Tooltip("ポインタがオブジェクトに乗った時に出す音源")] 
     AudioClip _onPointerEnterAudio;
 
+    internal void OnSetEvent(object v)
+    {
+        throw new NotImplementedException();
+    }
+
     [SerializeField, Tooltip("オブジェクト上でポインタを押下し、同一のオブジェクト上で離した時に出す音源")] 
     AudioClip _onPointerClickAudio;
 
     AudioSource _audioSource;
 
-    [SerializeField] int _addSkillNumber = 1;
+    int _addSkillNumber;
 
     /// <summary>
     /// クリックした時にさせたい処理
@@ -51,7 +56,7 @@ public class CustomButton : MonoBehaviour,
 
         if(_onPointerEnterImage)
         _onPointerEnterImage.enabled = false;
-        PlayerManager.Instance.SetSkillListener(this);
+
     }
     /// <summary>
     /// クリック
@@ -102,5 +107,9 @@ public class CustomButton : MonoBehaviour,
 
         _onPointerEnterImage.enabled = false;
     }
-
+    public void OnSetEvent(Action<int> e, int index)
+    {
+        OnClickCallback += e;
+        _addSkillNumber = index;
+    }
 }
