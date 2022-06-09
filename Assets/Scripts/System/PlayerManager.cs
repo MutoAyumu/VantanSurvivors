@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 
 /// <summary>
 /// 経験値・レベル・武器の管理
@@ -78,9 +79,8 @@ public class PlayerManager
     {
         _player = p;
     }
-
     //経験値を取得した時に呼ばれる処理
-    void GetExpPoint(int e)
+    async void GetExpPoint(int e)
     {
         _exp += e;
         var nextExp = _nextLevelUpExp;
@@ -90,12 +90,18 @@ public class PlayerManager
         if(_exp >= nextExp)
         {
             Time.timeScale = 0;
+            _levelFlag = true;
 
             _nextLevelUpExp += _nextLevelUpExp;
             Debug.Log($"次のレベルアップまでの経験値 : {_nextLevelUpExp}");
             _level++;
 
             _skillSelect.SelectEvent();
+
+            await UniTask.WaitUntil(() => !_levelFlag);
+            await UniTask.Delay(100);
+
+            GetExpPoint(0);
         }
 
         if (_debugLogFlag)
@@ -122,6 +128,7 @@ public class PlayerManager
                 break;
         }
 
+        _levelFlag = false;
         Time.timeScale = 1;
     }
 }
