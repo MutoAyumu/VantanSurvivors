@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
 
         Flip(_h);
 
-        transform.position += new Vector3(h * _speed * Time.deltaTime, v * _speed * Time.deltaTime, 0);
+        transform.position += new Vector3(h, v, 0).normalized * _speed * Time.deltaTime;
 
         _playerManager.Skill.ForEach(s => s.Update());
     }
@@ -70,6 +70,8 @@ public class PlayerController : MonoBehaviour
     }
     void Flip(float h)
     {
+        if (Time.timeScale < 1) return;
+
         if (h > 0)
         {
             _sprite.flipX = false;

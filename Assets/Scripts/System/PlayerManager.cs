@@ -18,9 +18,10 @@ public class PlayerManager
 
     int _exp;
     int _level = 1;
-    int _nextLevelUpExp = 10;
+    int _nextLevelUpExp = 1;
 
     bool _debugLogFlag;
+    bool _levelFlag;
 
     public List<ISkill> Skill { get => _skill;}
     public static PlayerManager Instance { get => _instance;}
@@ -88,8 +89,13 @@ public class PlayerManager
 
         if(_exp >= nextExp)
         {
+            Time.timeScale = 0;
+
             _nextLevelUpExp += _nextLevelUpExp;
+            Debug.Log($"次のレベルアップまでの経験値 : {_nextLevelUpExp}");
             _level++;
+
+            _skillSelect.SelectEvent();
         }
 
         if (_debugLogFlag)
@@ -115,5 +121,7 @@ public class PlayerManager
             case SelectType.Passive:
                 break;
         }
+
+        Time.timeScale = 1;
     }
 }
