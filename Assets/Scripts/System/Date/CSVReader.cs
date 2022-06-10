@@ -6,8 +6,8 @@ using System.IO;
 
 public class CSVReader : MonoBehaviour
 {
-    const string SHEET_ID = "138Tra7UzH6jk1h78z8vvsLjuYKJ4IIXisN1KBqYplpU";
-    const string SHEET_NAME = "シート1";
+    [SerializeField] string SHEET_ID = "138Tra7UzH6jk1h78z8vvsLjuYKJ4IIXisN1KBqYplpU";
+    [SerializeField] string SHEET_NAME = "シート1";
 
     void Start()
     {
@@ -37,10 +37,15 @@ public class CSVReader : MonoBehaviour
                 List<string[]> characterDataArrayList = ConvertToArrayListFrom(request.downloadHandler.text);
                 foreach (string[] characterDataArray in characterDataArrayList)
                 {
-                    new GameData(characterDataArray);
+                    Process(characterDataArray);
                 }
                 break;
         }
+    }
+
+    protected virtual void Process(string[] st)
+    {
+
     }
 
     List<string[]> ConvertToArrayListFrom(string _text)
