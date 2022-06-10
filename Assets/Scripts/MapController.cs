@@ -14,6 +14,8 @@ public class MapController : MonoBehaviour
 
     int _x;
     int _y;
+    int _a;
+    int _b = 2;
 
     [SerializeField] Transform _rightTopPos;
     [SerializeField] Transform _leftDownPos;
@@ -55,36 +57,38 @@ public class MapController : MonoBehaviour
     {
         var playerPos = PlayerManager.Player.transform.position;
 
-        if (playerPos.y >= _screenRightTop.y)   //ã
+        if (playerPos.y > _screenRightTop.y)   //ã
         {
             Debug.Log("TopˆÚ“®");
             _y--;
 
             if(_y < 0)
             {
-                _y = 1;
+                _y = 2;
             }
 
             for (int i = 0; i < 3; i++)
             {
-                _maps[2 - _y, 1].transform.position = _maps[_y, 1].transform.position + new Vector3(0, _screenHeight * 2);
+                _maps[_b % 2, i].transform.position = _maps[_a % 2, i].transform.position + new Vector3(0, _screenHeight * 2);
             }
 
             SetUpPos();
+            _a++;
+            _b--;
         }
-        if (playerPos.y <= _screenLeftDown.y)   //‰º
+        else if (playerPos.y < _screenLeftDown.y)   //‰º
         {
             Debug.Log("DownˆÚ“®");
             _y++;
             SetUpPos();
         }
-        if (playerPos.x >= _screenRightTop.x)   //‰E
+        if (playerPos.x > _screenRightTop.x)   //‰E
         {
             Debug.Log("RightˆÚ“®");
             _x++;
             SetUpPos();
         }
-        if (playerPos.x <= _screenLeftDown.x)   //¶
+        if (playerPos.x < _screenLeftDown.x)   //¶
         {
             Debug.Log("LeftˆÚ“®");
             _x--;
