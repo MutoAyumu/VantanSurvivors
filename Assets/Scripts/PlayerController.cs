@@ -33,13 +33,15 @@ public class PlayerController : MonoBehaviour
         _sprite = GetComponent<SpriteRenderer>();
 
         _currentHp = new FloatReactiveProperty(_hp);
-    }
-    private void Start()
-    {
+
         _playerManager.SetUp();
         _playerManager.SetLogFlag(_isDebugLog);
 
         _currentSpeed = _speed;
+    }
+    private void Start()
+    {
+
     }
     private void Update()
     {
