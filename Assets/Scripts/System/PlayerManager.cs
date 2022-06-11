@@ -13,6 +13,7 @@ public class PlayerManager
     static public PlayerController Player { get => Instance._player; }
 
     List<ISkill> _skill = new List<ISkill>();
+    List<IPassive> _passive = new List<IPassive>();
     PlayerController _player = default;
 
     SkillSelectUI _skillSelect;
@@ -25,6 +26,7 @@ public class PlayerManager
     bool _levelFlag;
 
     public List<ISkill> Skill { get => _skill;}
+    public List<IPassive> Passive { get => _passive;}
     public static PlayerManager Instance { get => _instance;}
     public bool DebugLog { get => _debugLogFlag;}
     public int Level { get => _level; set => _level = value; }
@@ -43,7 +45,7 @@ public class PlayerManager
 
         if(having.Count() > 0)
         {
-            having.Single().Levelup();  //‚±‚±‚¢‚Ü‚¢‚¿•ª‚©‚ç‚È‚¢‚©‚ç’²‚×‚é
+            having.Single().Levelup();
         }
         else
         {
@@ -72,6 +74,41 @@ public class PlayerManager
             {
                 newSkill.Setup();
                 _skill.Add(newSkill);
+            }
+        }
+    }
+    void AddPassive(int passiveId)
+    {
+        var having = _passive.Where(p => p.PassiveId == (PassiveDef)passiveId);
+
+        if (having.Count() > 0)
+        {
+            having.Single().Levelup();
+        }
+        else
+        {
+            IPassive newPassive = null;
+
+            switch ((PassiveDef)passiveId)
+            {
+                case PassiveDef.SpeedUp:
+                    newPassive = new SpeedUpAbility();
+                    break;
+
+                case PassiveDef.HitpointUp:
+                    newPassive = new HitPointUpAbility();
+                    break;
+
+                case PassiveDef.Regenerative:
+                    newPassive = new RegenerativeAbility();
+                    break;
+            }
+
+            if (newPassive != null)
+            {
+                _player.SetCallBack(newPassive);
+                newPassive.Setup();
+                _passive.Add(newPassive);
             }
         }
     }
@@ -116,7 +153,7 @@ public class PlayerManager
     {
         _debugLogFlag = flag;
     }
-    public void LevelUpSelect(SkillTable table)
+    public void LevelUpSelect(AbilityTable table)
     {
         switch (table.Type)
         {
@@ -125,6 +162,7 @@ public class PlayerManager
                 break;
 
             case SelectType.Passive:
+                AddPassive(table.Id);
                 break;
         }
 

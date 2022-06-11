@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float _speed = 1f;
     [SerializeField] float _hp = 10f;
     float _currentHp;
+    float _currentSpeed;
 
     [Header("セットするもの")]
     [SerializeField] Slider _hpBar = default;
@@ -35,6 +36,7 @@ public class PlayerController : MonoBehaviour
         _playerManager.SetLogFlag(_isDebugLog);
 
         _currentHp = _hp;
+        _currentSpeed = _speed;
 
         if (_hpBar)
             _hpBar.value = 1;
@@ -51,9 +53,10 @@ public class PlayerController : MonoBehaviour
 
         Flip(_h);
 
-        transform.position += new Vector3(h, v, 0).normalized * _speed * Time.deltaTime;
+        transform.position += new Vector3(h, v, 0).normalized * _currentSpeed * Time.deltaTime;
 
         _playerManager.Skill.ForEach(s => s.Update());
+        _playerManager.Passive.ForEach(p => p.Update());
     }
     public void Damage(float damage)
     {
@@ -80,5 +83,39 @@ public class PlayerController : MonoBehaviour
         {
             _sprite.flipX = true;
         }
+    }
+    public void SetCallBack(IPassive ability)
+    {
+        switch(ability.PassiveId)
+        {
+            case PassiveDef.SpeedUp:
+                ability._event += SpeedUp;
+                break;
+
+            case PassiveDef.HitpointUp:
+                ability._event += HitPointUp;
+                break;
+
+            case PassiveDef.Regenerative:
+                ability._event += Regenerative;
+                break;
+        }
+    }
+    //ここからパッシブでやらせたいこと
+    //ハイパーマジックナンバー
+    
+    void SpeedUp()
+    {
+        _currentSpeed += 0.2f;
+    }
+    void Regenerative()
+    {
+        if (_currentHp > _hp) return;
+
+        _currentHp += 1;
+    }
+    void HitPointUp()
+    {
+        _hp++;
     }
 }
