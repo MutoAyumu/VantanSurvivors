@@ -148,6 +148,8 @@ public class PlayerManager
     {
         e.OnGetEvent += GetExpPoint;
     }
+
+
     
     public void SetLogFlag(bool flag)
     {
