@@ -5,7 +5,7 @@ using UnityEngine;
 public class ReflectedBulletSkill : ISkill
 {
     float _shotInterval;
-    int _skillLevel = 0;
+    int _skillLevel = 1;
     int _shotCount = 1;
 
     SkillDef _skillId = SkillDef.ReflectingBullet;
@@ -43,7 +43,7 @@ public class ReflectedBulletSkill : ISkill
     }
     public void Levelup()
     {
-        if (_skillLevel >= 5) return;
+        if (_skillLevel > 5) return;
 
         _skillLevel++;
         _shotInterval -= 0.5f;

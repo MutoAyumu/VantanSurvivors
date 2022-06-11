@@ -7,7 +7,7 @@ using System.Linq;
 public class SkillSelectUI : MonoBehaviour
 {
     [SerializeField] List<GameObject> _selectList = new List<GameObject>();
-    List<SkillTable> _skillTable = new List<SkillTable>();
+    List<AbilityTable> _skillTable = new List<AbilityTable>();
     List<Text> _textList = new List<Text>();
 
     PlayerManager _playerManager;
@@ -35,7 +35,7 @@ public class SkillSelectUI : MonoBehaviour
     public void SelectEvent()
     {
         SetActiveButton(true);
-        var list = GameData.SkillSelectTable.Where(s => _playerManager.Level >= s.Level);
+        var list = GameData.AbilitySelectTable.Where(s => _playerManager.Level >= s.Level && s.Level <= 5);
         var total = list.Sum(s => s.Probability);
         var random = Random.Range(0, total);
 
@@ -54,7 +54,6 @@ public class SkillSelectUI : MonoBehaviour
                     _skillTable[i] = s;
                     _textList[i].text = s.Name;
                     Debug.Log(s.Name);
-
                     list = list.Where(k => !(k.Type == s.Type && k.Id == s.Id));    //ˆê‰ño‚½‚â‚Â‚ğœŠO
                     break;
                 }
@@ -66,6 +65,7 @@ public class SkillSelectUI : MonoBehaviour
     public void OnClick(int i)
     {
         _playerManager.LevelUpSelect(_skillTable[i]);
+        _skillTable[i].Level++;
         SetActiveButton(false);
     }
     void SetActiveButton(bool flag)

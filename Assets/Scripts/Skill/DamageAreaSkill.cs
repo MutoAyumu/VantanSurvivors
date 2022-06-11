@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DamageAreaSkill : ISkill
 {
-    int _skillLevel = 0;
+    int _skillLevel = 1;
     float _interval = 1f;
     int _maxAttackCount = 10;
     float _area = 1.5f;
@@ -50,7 +50,7 @@ public class DamageAreaSkill : ISkill
     }
     public void Levelup()
     {
-        if (_skillLevel >= 5) return;
+        if (_skillLevel > 5) return;
 
         _skillLevel++;
         _area += 0.2f;

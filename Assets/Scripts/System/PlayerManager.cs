@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Cysharp.Threading.Tasks;
+using UniRx;
 
 /// <summary>
 /// 経験値・レベル・武器の管理
@@ -13,21 +14,26 @@ public class PlayerManager
     static public PlayerController Player { get => Instance._player; }
 
     List<ISkill> _skill = new List<ISkill>();
+    List<IPassive> _passive = new List<IPassive>();
     PlayerController _player = default;
 
     SkillSelectUI _skillSelect;
 
-    int _exp;
+    FloatReactiveProperty _exp;
     int _level = 1;
-    int _nextLevelUpExp = 1;
+    float _nextLevelUpExp = 1;
 
     bool _debugLogFlag;
     bool _levelFlag;
 
     public List<ISkill> Skill { get => _skill;}
+    public List<IPassive> Passive { get => _passive;}
     public static PlayerManager Instance { get => _instance;}
     public bool DebugLog { get => _debugLogFlag;}
-    public int Level { get => _level; set => _level = value; }
+    public int Level { get => _level;}
+    public IReadOnlyReactiveProperty<float> Exp => _exp;
+
+    public float NextLevelUpExp { get => _nextLevelUpExp;}
 
     private PlayerManager() { }
 
@@ -35,6 +41,7 @@ public class PlayerManager
     {
         AddSkill(1);
         _skillSelect = GameObject.FindObjectOfType<SkillSelectUI>();
+        _exp = new FloatReactiveProperty(0);
     }
 
     void AddSkill(int skillId)
@@ -43,7 +50,7 @@ public class PlayerManager
 
         if(having.Count() > 0)
         {
-            having.Single().Levelup();  //ここいまいち分からないから調べる
+            having.Single().Levelup();
         }
         else
         {
@@ -75,6 +82,41 @@ public class PlayerManager
             }
         }
     }
+    void AddPassive(int passiveId)
+    {
+        var having = _passive.Where(p => p.PassiveId == (PassiveDef)passiveId);
+
+        if (having.Count() > 0)
+        {
+            having.Single().Levelup();
+        }
+        else
+        {
+            IPassive newPassive = null;
+
+            switch ((PassiveDef)passiveId)
+            {
+                case PassiveDef.SpeedUp:
+                    newPassive = new SpeedUpAbility();
+                    break;
+
+                case PassiveDef.HitpointUp:
+                    newPassive = new HitPointUpAbility();
+                    break;
+
+                case PassiveDef.Regenerative:
+                    newPassive = new RegenerativeAbility();
+                    break;
+            }
+
+            if (newPassive != null)
+            {
+                _player.SetCallBack(newPassive);
+                newPassive.Setup();
+                _passive.Add(newPassive);
+            }
+        }
+    }
     public void SetPlayer(PlayerController p)
     {
         _player = p;
@@ -82,17 +124,18 @@ public class PlayerManager
     //経験値を取得した時に呼ばれる処理
     async void GetExpPoint(int e)
     {
-        _exp += e;
+        _exp.Value += e;
         var nextExp = _nextLevelUpExp;
+        var currentLevel = _level;
         //一定の経験値が貯まるとレベルをあげる
         //データテーブルを参照
 
-        if(_exp >= nextExp)
+        if(_exp.Value >= nextExp)
         {
             Time.timeScale = 0;
             _levelFlag = true;
 
-            _nextLevelUpExp += _nextLevelUpExp;
+            _nextLevelUpExp += 5;
             Debug.Log($"次のレベルアップまでの経験値 : {_nextLevelUpExp}");
             _level++;
 
@@ -100,6 +143,8 @@ public class PlayerManager
 
             await UniTask.WaitUntil(() => !_levelFlag);
             await UniTask.Delay(100);
+
+            _exp.Value -= nextExp;
 
             GetExpPoint(0);
         }
@@ -111,12 +156,14 @@ public class PlayerManager
     {
         e.OnGetEvent += GetExpPoint;
     }
+
+
     
     public void SetLogFlag(bool flag)
     {
         _debugLogFlag = flag;
     }
-    public void LevelUpSelect(SkillTable table)
+    public void LevelUpSelect(AbilityTable table)
     {
         switch (table.Type)
         {
@@ -125,6 +172,7 @@ public class PlayerManager
                 break;
 
             case SelectType.Passive:
+                AddPassive(table.Id);
                 break;
         }
 

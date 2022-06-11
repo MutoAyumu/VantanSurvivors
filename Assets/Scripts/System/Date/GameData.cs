@@ -8,7 +8,7 @@ public class GameData
 {
     //GSSを読み込んで分割
     //各データとして保存
-    static public List<SkillTable> SkillSelectTable = new List<SkillTable>();
+    static public List<AbilityTable> AbilitySelectTable = new List<AbilityTable>();
 
     public GameData(string[] _dataTable)
     {
@@ -21,13 +21,13 @@ public class GameData
         switch ((SelectType)type)
         {
             case SelectType.Skill:
-                var s = new SkillTable() { Type = SelectType.Skill, Id = id, Name = name, Level = level, Probability = probability };
-                SkillSelectTable.Add(s);
+                var s = new AbilityTable() { Type = SelectType.Skill, Id = id, Name = name, Level = level, Probability = probability };
+                AbilitySelectTable.Add(s);
                 break;
 
             case SelectType.Passive:
-                var p = new SkillTable() { Type = SelectType.Passive, Id = id, Name = name, Level = level, Probability = probability };
-                SkillSelectTable.Add(p);
+                var p = new AbilityTable() { Type = SelectType.Passive, Id = id, Name = name, Level = level, Probability = probability };
+                AbilitySelectTable.Add(p);
                 break;
         }
 
@@ -41,7 +41,7 @@ public enum SelectType
 }
 
 [Serializable]
-public class SkillTable
+public class AbilityTable
 {
     public SelectType Type;
     public int Id;
