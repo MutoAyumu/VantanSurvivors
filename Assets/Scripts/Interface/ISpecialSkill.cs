@@ -4,9 +4,11 @@ using UnityEngine;
 
 public interface ISpecialSkill
 {
-    void Setup();
+    void Setup(PlayerController player);
 
-    void Action();
+    void Update();
+
+    void Use();
 
 }
 public enum SpecalSkillDef
