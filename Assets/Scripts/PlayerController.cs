@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     [Header("セットするもの")]
     [SerializeField] bool _isDebugLog;
     [SerializeField] bool _isGodMode;
+    [SerializeField] ISpecialSkill skill;
 
     PlayerManager _playerManager;
     SpriteRenderer _sprite;
@@ -59,6 +60,8 @@ public class PlayerController : MonoBehaviour
 
         _playerManager.Skill.ForEach(s => s.Update());
         _playerManager.Passive.ForEach(p => p.Update());
+
+        InputAttack();
     }
     public void Damage(float damage)
     {
@@ -69,6 +72,13 @@ public class PlayerController : MonoBehaviour
 
         if(_playerManager.DebugLog)
         Debug.Log($"{this.name} : ダメージを受けた({damage}) : 残りHP {_currentHp}");
+    }
+    void InputAttack()
+    {
+        if(Input.GetButtonDown("Fire1"))
+        {
+            _playerManager.SpecalSkill.Use();
+        }
     }
     void Flip(float h)
     {
@@ -116,5 +126,9 @@ public class PlayerController : MonoBehaviour
     void HitPointUp()
     {
         _hp++;
+    }
+    private void LateUpdate()
+    {
+        _playerManager.SpecalSkill.Update();
     }
 }
