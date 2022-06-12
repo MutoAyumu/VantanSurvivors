@@ -15,6 +15,7 @@ public class PlayerManager
 
     List<ISkill> _skill = new List<ISkill>();
     List<IPassive> _passive = new List<IPassive>();
+    ISpecialSkill _specialSkill = default;
     PlayerController _player = default;
 
     SkillSelectUI _skillSelect;
@@ -28,6 +29,8 @@ public class PlayerManager
 
     public List<ISkill> Skill { get => _skill;}
     public List<IPassive> Passive { get => _passive;}
+    public ISpecialSkill SpecalSkill { get => _specialSkill; }
+
     public static PlayerManager Instance { get => _instance;}
     public bool DebugLog { get => _debugLogFlag;}
     public int Level { get => _level;}
@@ -40,10 +43,34 @@ public class PlayerManager
     public void SetUp()
     {
         AddSkill(1);
+        SetSpecialSkill(1);
         _skillSelect = GameObject.FindObjectOfType<SkillSelectUI>();
         _exp = new FloatReactiveProperty(0);
     }
 
+    void SetSpecialSkill(int Id)
+    {
+        if(_specialSkill != null)
+        {
+            Debug.Log($"<color=yellow>{this}</color> : •KŽE‹Z‚ªŠù‚ÉƒZƒbƒg‚³‚ê‚Ä‚¢‚Ü‚·");
+            return;
+        }
+
+        ISpecialSkill newSkill = null;
+
+        switch((SpecalSkillDef)Id)
+        {
+            case SpecalSkillDef.ReflectedLaser:
+                newSkill = new ReflectingLaser();
+                break;
+        }
+
+        if(newSkill != null)
+        {
+            _specialSkill = newSkill;
+            _specialSkill.Setup();
+        }
+    }
     void AddSkill(int skillId)
     {
         var having = _skill.Where(s => s.SkillId == (SkillDef)skillId);

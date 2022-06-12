@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     [Header("ƒZƒbƒg‚·‚é‚à‚Ì")]
     [SerializeField] bool _isDebugLog;
     [SerializeField] bool _isGodMode;
+    [SerializeField] ISpecialSkill skill;
 
     PlayerManager _playerManager;
     SpriteRenderer _sprite;
