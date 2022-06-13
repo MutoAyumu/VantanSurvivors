@@ -6304,8 +6304,8 @@ MonoBehaviour:
   _playerDuration: 0.05
   _expSlider: {fileID: 1475633928}
   _expDuration: 0.01
-  _specialSlider: {fileID: 0}
-  _specialDuration: 0
+  _specialSlider: {fileID: 1684040832}
+  _specialDuration: 0.01
 --- !u!1 &909058079
 GameObject:
   m_ObjectHideFlags: 0
@@ -16999,6 +16999,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 5
   _hp: 10
+  _specialValue: 20
   _isDebugLog: 1
   _isGodMode: 1
 --- !u!95 &1725547428

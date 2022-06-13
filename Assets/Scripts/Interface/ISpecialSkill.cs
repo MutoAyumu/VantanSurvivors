@@ -10,6 +10,8 @@ public interface ISpecialSkill
 
     void Use();
 
+    bool IsAction();
+
 }
 public enum SpecalSkillDef
 {

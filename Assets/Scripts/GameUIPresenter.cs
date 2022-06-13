@@ -40,5 +40,16 @@ public class GameUIPresenter : MonoBehaviour
                 _expSlider.SetValue(x, _playerManager.NextLevelUpExp, _expDuration);
             }).AddTo(this);
         }
+
+        if(_specialSlider)
+        {
+            _playerManager = PlayerManager.Instance;
+            _player = PlayerManager.Player;
+
+            _playerManager.SpecialPoint.Subscribe(x =>
+            {
+                _specialSlider.SetValue(x, _player.SpecialValue, _specialDuration);
+            }).AddTo(this);
+        }
     }
 }

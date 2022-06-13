@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: LaserSetup
   m_EditorClassIdentifier: Assembly-CSharp::LaserSetup
-  _reflectiveCount: 21
+  _reflectiveCount: 31
   _lineAnimationSpeed: 25
-  _changeDistance: 0.25
+  _changeDistance: 0.5
   _mask:
     serializedVersion: 2
     m_Bits: 16

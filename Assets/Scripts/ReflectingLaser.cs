@@ -122,4 +122,8 @@ public class ReflectingLaser : ISpecialSkill
 
         _reflectedCount++;
     }
+    public bool IsAction()
+    {
+        return _isAction;
+    }
 }
