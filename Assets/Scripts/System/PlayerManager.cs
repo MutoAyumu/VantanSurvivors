@@ -43,7 +43,7 @@ public class PlayerManager
     public void SetUp()
     {
         AddSkill(1);
-        //SetSpecialSkill(1);
+        SetSpecialSkill(1);
         _skillSelect = GameObject.FindObjectOfType<SkillSelectUI>();
         _exp = new FloatReactiveProperty(0);
     }
