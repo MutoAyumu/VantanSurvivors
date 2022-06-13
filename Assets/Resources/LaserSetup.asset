@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: LaserSetup
   m_EditorClassIdentifier: Assembly-CSharp::LaserSetup
-  ReflectiveCount: 21
-  LineAnimationSpeed: 30
-  ChangeDistance: 0.2
-  Mask:
+  _reflectiveCount: 21
+  _lineAnimationSpeed: 25
+  _changeDistance: 0.25
+  _mask:
     serializedVersion: 2
     m_Bits: 16
-  Material: {fileID: 2100000, guid: 68aef80e8d3c2a7418216335ea21afbb, type: 2}
+  _material: {fileID: 2100000, guid: 68aef80e8d3c2a7418216335ea21afbb, type: 2}

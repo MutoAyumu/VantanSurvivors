@@ -34,12 +34,15 @@ public class ReflectingLaser : ISpecialSkill
                 _line.SetPosition(i, Vector2.Lerp(_currentLaserPoint, _hit.point, delta));
             }
 
-            var ray = Physics2D.LinecastAll(_line.GetPosition(_reflectedCount), _currentLaserPoint);
-
-            foreach(var go in ray)
+            for(int i = 1; i <= _reflectedCount; i++)
             {
-                var e = go.collider.GetComponent<IDamage>();
-                e?.Damage(10);
+                var ray = Physics2D.LinecastAll(_line.GetPosition(i  - 1), _line.GetPosition(i));
+
+                foreach (var go in ray)
+                {
+                    var e = go.collider.GetComponent<IDamage>();
+                    e?.Damage(10);
+                }
             }
 
             var distance = Vector2.Distance(_currentLaserPoint, _hit.point);
@@ -119,13 +122,4 @@ public class ReflectingLaser : ISpecialSkill
 
         _reflectedCount++;
     }
-}
-[CreateAssetMenu]
-public class LaserSetup : ScriptableObject
-{
-    public int ReflectiveCount = 11;
-    public float LineAnimationSpeed = 20f;
-    public float ChangeDistance = 0.1f;
-    public LayerMask Mask;
-    public Material Material;
 }
