@@ -6,16 +6,16 @@ using DG.Tweening;
 
 public class MVPSlider : MonoBehaviour
 {
-    Slider _Slider = default;
+    Slider _slider = default;
 
     private void Awake()
     {
-        _Slider = GetComponent<Slider>();
+        _slider = GetComponent<Slider>();
     }
 
     public void SetValue(float value, float maxValue, float time)
     {
-        if (_Slider)
-            _Slider.DOValue(value / maxValue, time).SetEase(Ease.InOutSine);
+        if (_slider)
+            _slider.DOValue(value / maxValue, time).SetEase(Ease.InOutSine);
     }
 }

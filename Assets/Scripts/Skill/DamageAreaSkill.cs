@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class DamageAreaSkill : ISkill
 {
     int _skillLevel = 1;
     float _interval = 1f;
     int _maxAttackCount = 10;
-    float _area = 1.5f;
+    float _maxArea = 1.5f;
     float _damage = 1f;
 
     SkillDef _skillId = SkillDef.DamageArea;
@@ -21,8 +22,16 @@ public class DamageAreaSkill : ISkill
         _timer.Setup(_interval);
 
         _areaImage = GameObject.Instantiate(Resources.Load("DamageArea"), PlayerManager.Player.transform) as GameObject;
-        _areaImage.transform.localScale = new Vector3(_area * 2, _area * 2, 0);
+        _areaImage.transform.localScale = new Vector3(_maxArea * 2, _maxArea * 2, 0);
         Debug.Log($"<color=yellow>{this}</color> : スキルの追加");
+
+        _areaImage.transform.DOLocalRotate(new(0, 0, 360f), 5f, RotateMode.FastBeyond360)
+            .SetEase(Ease.Linear)
+            .SetLoops(-1, LoopType.Restart);
+
+        _areaImage.transform.localScale = Vector3.zero;
+        _areaImage.transform.DOScale(new Vector3(_maxArea, _maxArea, 0), 1f)
+            .SetEase(Ease.Linear);
     }
     public void Update()
     {
@@ -30,7 +39,7 @@ public class DamageAreaSkill : ISkill
         {
             var attackCount = 0;
 
-            var enemies = Physics2D.OverlapCircleAll(PlayerManager.Player.transform.position, _area);
+            var enemies = Physics2D.OverlapCircleAll(PlayerManager.Player.transform.position, _maxArea / 2);
 
             foreach(var e in enemies)
             {
@@ -53,8 +62,11 @@ public class DamageAreaSkill : ISkill
         if (_skillLevel > 5) return;
 
         _skillLevel++;
-        _area += 0.2f;
-        _areaImage.transform.localScale = new Vector3(_area * 2, _area * 2, 0);
+        _maxArea += 0.25f;
+
+        _areaImage.transform.DOScale(new Vector3(_maxArea, _maxArea, 0), 1f)
+            .SetEase(Ease.Linear);
+
         Debug.Log($"<color=yellow>{this}</color> : レベルアップ{_skillLevel}");
     }
 }

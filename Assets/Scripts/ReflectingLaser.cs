@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class ReflectingLaser : ISpecialSkill
 {
-    int _reflectiveCount = 11;
+    int _reflectiveCount;
     int _reflectedCount;
-    float _lineAnimationSpeed = 20f;
-    float _changeDistance = 0.1f;
+    float _lineAnimationSpeed;
+    float _changeDistance;
 
     bool _isAction;
     LineRenderer _line;
@@ -15,8 +16,6 @@ public class ReflectingLaser : ISpecialSkill
     LayerMask _mask;
 
     Vector2 _currentLaserPoint;
-
-    Transform test;
 
     public void Update()
     {
@@ -35,7 +34,16 @@ public class ReflectingLaser : ISpecialSkill
                 _line.SetPosition(i, Vector2.Lerp(_currentLaserPoint, _hit.point, delta));
             }
 
-            //_line.SetPosition(_reflectedCount, Vector2.Lerp(_currentLaserPoint, _hit.point, delta));
+            for(int i = 1; i <= _reflectedCount; i++)
+            {
+                var ray = Physics2D.LinecastAll(_line.GetPosition(i  - 1), _line.GetPosition(i));
+
+                foreach (var go in ray)
+                {
+                    var e = go.collider.GetComponent<IDamage>();
+                    e?.Damage(10);
+                }
+            }
 
             var distance = Vector2.Distance(_currentLaserPoint, _hit.point);
 
@@ -46,29 +54,40 @@ public class ReflectingLaser : ISpecialSkill
         }
         else
         {
-            _line.positionCount = 0;
-            _reflectedCount = 0;
-            _currentLaserPoint = Vector2.zero;
-            _isAction = false;
+            DOVirtual.Float(_line.startWidth, 0f, 1f, value => _line.startWidth = value)
+                .OnComplete(() =>
+                {
+                    _line.positionCount = 0;
+                    _reflectedCount = 0;
+                    _currentLaserPoint = Vector2.zero;
+                    _isAction = false;
+                });
         }
     }
 
     public void Setup(PlayerController player)
     {
         _line = player.gameObject.AddComponent<LineRenderer>();
-        _line.startWidth = 0.5f;
-        _line.alignment = LineAlignment.TransformZ;
-        _line.numCapVertices = 90;
-        _line.numCornerVertices = 90;
-        _line.material = new Material(Shader.Find("Sprites/Default"));
 
-        _mask = LayerMask.GetMask("Water");
-        test = GameObject.Find("AAAAA").transform;
+        var setup = Resources.Load<LaserSetup>("LaserSetup");
+
+        _lineAnimationSpeed = setup.LineAnimationSpeed;
+        _reflectiveCount = setup.ReflectiveCount;
+        _mask = setup.Mask;
+        _changeDistance = setup.ChangeDistance;
+
+        _line.alignment = LineAlignment.TransformZ;
+        _line.numCapVertices = _reflectiveCount;
+        _line.numCornerVertices = _reflectiveCount;
+        _line.material = setup.Material;
+
         Debug.Log($"<color=yellow>{this}</color> : 必殺技の追加");
     }
     public void Use()
     {
         //アクションを始める処理
+
+        if (_isAction) return;
 
         var origin = PlayerManager.Player.transform.position;
 
@@ -76,6 +95,7 @@ public class ReflectingLaser : ISpecialSkill
         {
             _line.positionCount = _reflectiveCount + 1;
             _line.SetPosition(0, origin);
+            _line.startWidth = 0.5f;
             _reflectedCount++;
         }
 
@@ -100,10 +120,10 @@ public class ReflectingLaser : ISpecialSkill
 
         _hit = Physics2D.Raycast(_currentLaserPoint, reflect, 100,_mask);
 
-        test.position = _hit.point;
-        Debug.Log(_hit.collider.name);
-
         _reflectedCount++;
-        Debug.Log($"<color=yellow>{this}</color> : 反射");
+    }
+    public bool IsAction()
+    {
+        return _isAction;
     }
 }

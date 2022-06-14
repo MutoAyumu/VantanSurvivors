@@ -24,6 +24,8 @@ public class PlayerManager
     int _level = 1;
     float _nextLevelUpExp = 1;
 
+    FloatReactiveProperty _specialPoint;
+
     bool _debugLogFlag;
     bool _levelFlag;
 
@@ -37,6 +39,7 @@ public class PlayerManager
     public IReadOnlyReactiveProperty<float> Exp => _exp;
 
     public float NextLevelUpExp { get => _nextLevelUpExp;}
+    public IReadOnlyReactiveProperty<float> SpecialPoint => _specialPoint;
 
     private PlayerManager() { }
 
@@ -46,6 +49,7 @@ public class PlayerManager
         SetSpecialSkill(1);
         _skillSelect = GameObject.FindObjectOfType<SkillSelectUI>();
         _exp = new FloatReactiveProperty(0);
+        _specialPoint = new FloatReactiveProperty(0);
     }
 
     void SetSpecialSkill(int Id)
@@ -182,6 +186,12 @@ public class PlayerManager
     public void SetExpListener(ExpPoint e)
     {
         e.OnGetEvent += GetExpPoint;
+    }
+    public void GetSpecialPoint(int p)//•ÛŒì‚·‚é
+    {
+        if (_specialSkill.IsAction()) return;
+
+        _specialPoint.Value = Mathf.Clamp(_specialPoint.Value + p, 0f, _player.SpecialValue);
     }
 
 

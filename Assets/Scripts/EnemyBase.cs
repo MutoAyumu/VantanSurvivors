@@ -14,6 +14,7 @@ public class EnemyBase : MonoBehaviour, IObjectPool, IDamage
     Rigidbody2D _rb;
     GameManager _gameManager;
     ItemManager _itemManager;
+    PlayerManager _playerManager;
     bool _isPause;
 
     public float Radius { get => _radius;}
@@ -22,6 +23,7 @@ public class EnemyBase : MonoBehaviour, IObjectPool, IDamage
     {
         _gameManager = GameManager.Instance;
         _itemManager = ItemManager.Instance;
+        _playerManager = PlayerManager.Instance;
 
         _rb = this.GetComponent<Rigidbody2D>();
         _anim = this.GetComponent<Animator>();
@@ -77,6 +79,8 @@ public class EnemyBase : MonoBehaviour, IObjectPool, IDamage
         _anim.Play("Enabled");
         _rb.simulated = false;
         _isActive = false;
+
+        _playerManager.GetSpecialPoint(1);
 
         var r = Random.Range(0, 2);
 

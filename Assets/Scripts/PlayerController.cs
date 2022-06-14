@@ -12,9 +12,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float _hp = 10f;
     FloatReactiveProperty _currentHp;
     float _currentSpeed;
+    [SerializeField] float _specialValue = 20f;
     public IReadOnlyReactiveProperty<float> CurrentHp => _currentHp;
 
     public float Hp { get => _hp;}
+    public float SpecialValue { get => _specialValue;}
 
     [Header("ƒZƒbƒg‚·‚é‚à‚Ì")]
     [SerializeField] bool _isDebugLog;
@@ -37,6 +39,8 @@ public class PlayerController : MonoBehaviour
 
         _playerManager.SetUp();
         _playerManager.SetLogFlag(_isDebugLog);
+
+        GameManager.Instance.SetTimer();
 
         _currentSpeed = _speed;
     }
@@ -75,9 +79,13 @@ public class PlayerController : MonoBehaviour
     }
     void InputAttack()
     {
-        if(Input.GetButtonDown("Fire1"))
+        if(Input.GetButtonDown("Fire2"))
         {
-            _playerManager.SpecalSkill.Use();
+            if (_playerManager.SpecialPoint.Value == _specialValue)
+            {
+                _playerManager.GetSpecialPoint(-(int)_specialValue);
+                _playerManager.SpecalSkill.Use();
+            }
         }
     }
     void Flip(float h)
