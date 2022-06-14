@@ -40,6 +40,8 @@ public class PlayerController : MonoBehaviour
         _playerManager.SetUp();
         _playerManager.SetLogFlag(_isDebugLog);
 
+        GameManager.Instance.SetTimer();
+
         _currentSpeed = _speed;
     }
     private void Start()

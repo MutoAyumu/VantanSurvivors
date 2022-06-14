@@ -4,6 +4,8 @@ using UnityEngine;
 using System;
 using System.Linq;
 using UnityEngine.UI;
+using UniRx;
+
 /// <summary>
 /// ゲーム時間の管理・ゲームオーバー・クリアのイベント管理・フェーズの管理
 /// </summary>
@@ -17,10 +19,8 @@ public class GameManager
 
     public event Action OnGameClear;
 
-    [Tooltip("経過時間を表示するテキスト")] Text _timerText;
-
     Timer _gameTimer = new Timer();
-    float _timer;
+    FloatReactiveProperty _timer;
 
     int _phaseCount;
     bool _isClear;
@@ -39,16 +39,20 @@ public class GameManager
     public List<EnemyBase> Enemies { get => Instance._enemies; }
     static public GameManager Instance { get => _instance; }
 
+    public IReadOnlyReactiveProperty<float> GameTimer => _timer;
+
     public void SetUp()
     {
         _enemies = GameObject.FindObjectsOfType<EnemyBase>(true).ToList();
+    }
+    public void SetTimer()
+    {
+        _timer = new FloatReactiveProperty(0);
     }
 
     public void SetGameListener(GameManagerAuxiliary gameTime)
     {
         OnGameClear += Clear;
-
-        _timerText = gameTime.TimerText;
 
         gameTime.SetUpdateCallback(Update);
     }
@@ -62,11 +66,7 @@ public class GameManager
     {
         if (!_isPause)
         {
-            if (_timerText)
-            {
-                _timer += Time.deltaTime;
-                _timerText.text = ((int)(_timer / 60)).ToString() + ":" + ((int)(_timer % 60)).ToString("00");
-            }
+            _timer.Value += Time.deltaTime;
 
             if (_gameTimer.RunTimer())
             {

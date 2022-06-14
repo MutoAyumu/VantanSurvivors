@@ -19,6 +19,10 @@ public class GameUIPresenter : MonoBehaviour
     [SerializeField] MVPSlider _specialSlider;
     [SerializeField]float _specialDuration = 0;
 
+    [Header("タイマー用テキスト")]
+    [SerializeField] MVPText _timeText;
+    GameManager _gameManager;
+
     private void Start()
     {
         if (_hpSlider)
@@ -49,6 +53,16 @@ public class GameUIPresenter : MonoBehaviour
             _playerManager.SpecialPoint.Subscribe(x =>
             {
                 _specialSlider.SetValue(x, _player.SpecialValue, _specialDuration);
+            }).AddTo(this);
+        }
+
+        if(_timeText)
+        {
+            _gameManager = GameManager.Instance;
+
+            _gameManager.GameTimer.Subscribe(x =>
+            {
+                _timeText.SetText(((int)(x / 60)).ToString() + ":" + ((int)(x % 60)).ToString("00"));
             }).AddTo(this);
         }
     }
