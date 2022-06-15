@@ -92,6 +92,8 @@ public class EnemyBase : MonoBehaviour, IObjectPool, IDamage
             {
                 Destroy();
             }).AddTo(this);
+
+        _gameManager.TestObjectCount(true);
     }
     public void Destroy()
     {
@@ -103,6 +105,8 @@ public class EnemyBase : MonoBehaviour, IObjectPool, IDamage
                 _itemManager.SetExp(this.transform);
 
             _playerManager.GetSpecialPoint(1);
+
+            _gameManager.TestObjectCount(false);
         }
 
         _rb.simulated = false;

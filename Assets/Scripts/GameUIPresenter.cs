@@ -23,6 +23,9 @@ public class GameUIPresenter : MonoBehaviour
     [SerializeField] MVPText _timeText;
     GameManager _gameManager;
 
+    [Header("オブジェクトの数")]
+    [SerializeField] MVPText _countText;
+
     private void Start()
     {
         if (_hpSlider)
@@ -63,6 +66,16 @@ public class GameUIPresenter : MonoBehaviour
             _gameManager.GameTimer.Subscribe(x =>
             {
                 _timeText.SetText(((int)(x / 60)).ToString() + ":" + ((int)(x % 60)).ToString("00"));
+            }).AddTo(this);
+        }
+
+        if(_countText)
+        {
+            _gameManager = GameManager.Instance;
+
+            _gameManager.ObjectCount.Subscribe(x =>
+            {
+                _countText.SetText(x.ToString("00000"));
             }).AddTo(this);
         }
     }

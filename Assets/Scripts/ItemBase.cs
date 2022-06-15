@@ -55,6 +55,8 @@ public class ItemBase : MonoBehaviour, IObjectPool
         _isActive = true;
         _sprite.enabled = true;
         _collider.enabled = true;
+
+        GameManager.Instance.TestObjectCount(true);
     }
 
     public void Create(EnemyStatus status)
@@ -66,5 +68,7 @@ public class ItemBase : MonoBehaviour, IObjectPool
         _isActive = false;
         _sprite.enabled = false;
         _collider.enabled = false;
+
+        GameManager.Instance.TestObjectCount(false);
     }
 }

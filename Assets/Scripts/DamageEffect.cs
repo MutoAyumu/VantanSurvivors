@@ -33,6 +33,8 @@ public class DamageEffect : MonoBehaviour, IObjectPool
         _mov = Vector3.zero;
         _movVec = new Vector3(0, 0.3f, 0);
 
+        GameManager.Instance.TestObjectCount(true);
+
         _isActive = true;
     }
 
@@ -45,6 +47,8 @@ public class DamageEffect : MonoBehaviour, IObjectPool
     {
         _isActive = false;
         _text.enabled = false;
+
+        GameManager.Instance.TestObjectCount(false);
     }
 
     public void DisactiveForInstantiate()

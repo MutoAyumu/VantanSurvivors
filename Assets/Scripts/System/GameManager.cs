@@ -22,6 +22,8 @@ public class GameManager
     Timer _gameTimer = new Timer();
     FloatReactiveProperty _timer;
 
+    IntReactiveProperty _objectCount;
+
     int _phaseCount;
     bool _isClear;
     bool _isPause;
@@ -41,6 +43,8 @@ public class GameManager
 
     public IReadOnlyReactiveProperty<float> GameTimer => _timer;
 
+    public IReadOnlyReactiveProperty<int> ObjectCount => _objectCount;
+
     public void SetUp()
     {
         _enemies = GameObject.FindObjectsOfType<EnemyBase>(true).ToList();
@@ -48,6 +52,7 @@ public class GameManager
     public void SetTimer()
     {
         _timer = new FloatReactiveProperty(0);
+        _objectCount = new IntReactiveProperty(0);
     }
 
     public void SetGameListener(GameManagerAuxiliary gameTime)
@@ -108,5 +113,16 @@ public class GameManager
     {
         _isClear = true;
         Debug.Log($"{this} : <color=red>ÉQÅ[ÉÄÉNÉäÉA</color>");
+    }
+    public void TestObjectCount(bool flag)
+    {
+        if(flag)
+        {
+            _objectCount.Value++;
+        }
+        else
+        {
+            _objectCount.Value--;
+        }
     }
 }
