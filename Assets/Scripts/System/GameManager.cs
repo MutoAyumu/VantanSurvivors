@@ -51,7 +51,10 @@ public class GameManager
 
     public void SetUp()
     {
+        _phaseCount = 0;
+        _enemies.Clear();
         _enemies = GameObject.FindObjectsOfType<EnemyBase>(true).ToList();
+        _isGameOver = false;
     }
     public void SetTimer()
     {
@@ -128,7 +131,6 @@ public class GameManager
 
     void Clear()
     {
-        _isGameOver = true;
         Debug.Log($"{this} : <color=red>ƒQ[ƒ€ƒNƒŠƒA</color>");
     }
     public void TestObjectCount(bool flag)

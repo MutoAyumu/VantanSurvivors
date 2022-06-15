@@ -2183,15 +2183,15 @@ MonoBehaviour:
   - _enemies:
     - {fileID: 11400000, guid: eddc978a5d4540b42b8dd7a7fd395b9b, type: 2}
   - _enemies:
-    - {fileID: 11400000, guid: eddc978a5d4540b42b8dd7a7fd395b9b, type: 2}
+    - {fileID: 11400000, guid: 0ef86b08e4dfcc34aa78780c53e50ef6, type: 2}
   - _enemies:
     - {fileID: 11400000, guid: eddc978a5d4540b42b8dd7a7fd395b9b, type: 2}
     - {fileID: 11400000, guid: 0ef86b08e4dfcc34aa78780c53e50ef6, type: 2}
   _spawnTimes:
-  - 0.1
-  - 0.1
-  - 0.1
-  _phaseTime: 20
+  - 0.5
+  - 1
+  - 0.5
+  _phaseTime: 60
   _isDebugLog: 0
 --- !u!4 &909058081
 Transform:
@@ -16905,9 +16905,9 @@ RectTransform:
   m_Father: {fileID: 1507413490}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 101.06238, y: -25}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1530035155
@@ -18564,7 +18564,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2036175860
 MonoBehaviour:
   m_ObjectHideFlags: 0

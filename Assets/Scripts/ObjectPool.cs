@@ -29,6 +29,8 @@ public class ObjectPool<T> where T : UnityEngine.Object, IObjectPool
 
     public void SetCapacity(int size)
     {
+        Pool.Clear();
+
         //既にオブジェクトサイズが大きいときは更新しない
         if (size < Pool.Count) return;
 
