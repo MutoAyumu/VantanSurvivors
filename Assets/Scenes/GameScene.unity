@@ -2147,6 +2147,7 @@ MonoBehaviour:
   _specialDuration: 0.01
   _timeText: {fileID: 1316929449}
   _countText: {fileID: 1803660440}
+  _enemyText: {fileID: 708727265}
 --- !u!1 &909058079
 GameObject:
   m_ObjectHideFlags: 0

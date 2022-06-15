@@ -26,6 +26,9 @@ public class GameUIPresenter : MonoBehaviour
     [Header("オブジェクトの数")]
     [SerializeField] MVPText _countText;
 
+    [Header("倒した敵の数")]
+    [SerializeField] MVPText _enemyText;
+
     private void Start()
     {
         if (_hpSlider)
@@ -76,6 +79,14 @@ public class GameUIPresenter : MonoBehaviour
             _gameManager.ObjectCount.Subscribe(x =>
             {
                 _countText.SetText(x.ToString("00000"));
+            }).AddTo(this);
+        }
+
+        if(_enemyText)
+        {
+            _gameManager.EnemyCount.Subscribe(x =>
+            {
+                _enemyText.SetText(x.ToString("00000"));
             }).AddTo(this);
         }
     }

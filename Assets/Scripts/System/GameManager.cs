@@ -29,6 +29,8 @@ public class GameManager
     bool _isPause;
     bool _isEnemyDebugLogFlag;
 
+    IntReactiveProperty _enemyCount;
+
     static GameManager _instance = new GameManager();
 
     List<EnemyBase> _enemies = new List<EnemyBase>();
@@ -45,6 +47,8 @@ public class GameManager
 
     public IReadOnlyReactiveProperty<int> ObjectCount => _objectCount;
 
+    public IReadOnlyReactiveProperty<int> EnemyCount { get => _enemyCount;}
+
     public void SetUp()
     {
         _enemies = GameObject.FindObjectsOfType<EnemyBase>(true).ToList();
@@ -53,6 +57,7 @@ public class GameManager
     {
         _timer = new FloatReactiveProperty(0);
         _objectCount = new IntReactiveProperty(0);
+        _enemyCount = new IntReactiveProperty(0);
     }
 
     public void SetGameListener(GameManagerAuxiliary gameTime)
@@ -136,5 +141,10 @@ public class GameManager
         {
             _objectCount.Value--;
         }
+    }
+
+    public void TestEnemyCount()
+    {
+        _enemyCount.Value++;
     }
 }

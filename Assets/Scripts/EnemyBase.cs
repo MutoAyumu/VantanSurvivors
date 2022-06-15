@@ -107,6 +107,7 @@ public class EnemyBase : MonoBehaviour, IObjectPool, IDamage
             _playerManager.GetSpecialPoint(1);
 
             _gameManager.TestObjectCount(false);
+            _gameManager.TestEnemyCount();
         }
 
         _rb.simulated = false;
