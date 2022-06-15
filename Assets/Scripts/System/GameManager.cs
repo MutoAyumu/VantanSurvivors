@@ -25,7 +25,7 @@ public class GameManager
     IntReactiveProperty _objectCount;
 
     int _phaseCount;
-    bool _isClear;
+    bool _isGameOver;
     bool _isPause;
     bool _isEnemyDebugLogFlag;
 
@@ -35,7 +35,7 @@ public class GameManager
 
     private GameManager() { }
 
-    public bool IsClear { get => _isClear; }
+    public bool IsGameOver { get => _isGameOver; }
     static public int PhaseCount { get => Instance._phaseCount; }
     public bool EnemyDebugLog { get => _isEnemyDebugLogFlag; }
     public List<EnemyBase> Enemies { get => Instance._enemies; }
@@ -71,11 +71,13 @@ public class GameManager
     {
         if (!_isPause)
         {
+            if (_isGameOver) return;
+
             _timer.Value += Time.deltaTime;
 
             if (_gameTimer.RunTimer())
             {
-                if (_isClear) return;
+                if (_isGameOver) return;
 
                 OnGameClear?.Invoke();
             }
@@ -108,10 +110,20 @@ public class GameManager
         _phaseCount++;
     }
 
+    void GameOver()
+    {
+        _isGameOver = true;
+        OnGameOver?.Invoke();
+    }
+
+    public void SetGameOverListener(PlayerController p)
+    {
+        p.OnDeath += GameOver;
+    }
 
     void Clear()
     {
-        _isClear = true;
+        _isGameOver = true;
         Debug.Log($"{this} : <color=red>ÉQÅ[ÉÄÉNÉäÉA</color>");
     }
     public void TestObjectCount(bool flag)

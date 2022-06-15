@@ -55,6 +55,8 @@ public class Spawner : MonoBehaviour
     }
     private void Update()
     {
+        if (_gameManager.IsGameOver) return;
+
         if(_spawneTimer.RunTimer())
         {
             Spawn();
