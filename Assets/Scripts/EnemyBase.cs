@@ -128,6 +128,7 @@ public class EnemyBase : MonoBehaviour, IObjectPool, IDamage
     public void Damage(float damage)
     {
         _hp -= damage;
+        DamagePopup.Pop(this.gameObject, (int)damage);
 
         if(_hp <= 0)
         {

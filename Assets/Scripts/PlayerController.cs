@@ -79,6 +79,8 @@ public class PlayerController : MonoBehaviour
     }
     void InputAttack()
     {
+        if (Time.timeScale <= 0) return;
+
         if(Input.GetButtonDown("Fire2"))
         {
             if (_playerManager.SpecialPoint.Value == _specialValue)
