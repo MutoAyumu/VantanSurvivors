@@ -53,7 +53,7 @@ public class ObjectPool<T> where T : UnityEngine.Object, IObjectPool
     {
         for (int i = 0; i < Pool.Count; i++)
         {
-            int index = (Index + i) % Pool.Count;
+            int index = i;
             if (Pool[index].IsActive) continue;
 
             Pool[index].Create();
@@ -77,7 +77,7 @@ public class ObjectPool<T> where T : UnityEngine.Object, IObjectPool
     {
         for (int i = 0; i < Pool.Count; i++)
         {
-            int index = (Index + i) % Pool.Count;
+            int index = i;
             if (Pool[index].IsActive) continue;
 
             Pool[index].Create(status);

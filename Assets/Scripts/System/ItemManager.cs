@@ -18,7 +18,7 @@ public class ItemManager
         var exp = Resources.Load<ExpPoint>("ExpPoint");
         var expRoot = new GameObject("ExpRoot").transform;
         _expPoints.SetBaseObj(exp, expRoot);
-        _expPoints.SetCapacity(100);
+        _expPoints.SetCapacity(10);
     }
     public void SetExp(Transform transform)// ‚±‚±‚ ‚Æ‚Å’¼‚·‚©‚à
     {

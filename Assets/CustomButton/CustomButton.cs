@@ -47,6 +47,7 @@ public class CustomButton : MonoBehaviour,
     /// クリックした時にさせたい処理
     /// </summary>
     public event Action<int> OnClickCallback;
+    public event Action OnSceneLoadCallback;
 
     private void Start()
     {
@@ -65,6 +66,7 @@ public class CustomButton : MonoBehaviour,
     public void OnPointerClick(PointerEventData eventData) 
     {
         OnClickCallback?.Invoke(_addSkillNumber);
+        OnSceneLoadCallback?.Invoke();
         Debug.Log("クリック");
 
         if (!_onPointerClickAudio) return;
@@ -111,5 +113,9 @@ public class CustomButton : MonoBehaviour,
     {
         OnClickCallback += e;
         _addSkillNumber = index;
+    }
+    public void OnSetEvent(Action e)
+    {
+        OnSceneLoadCallback += e;
     }
 }
