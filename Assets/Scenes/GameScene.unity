@@ -1885,6 +1885,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _button: {fileID: 884563644}
   _sceneName: Result
+  _type: 0
 --- !u!114 &884563644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2201,10 +2202,33 @@ MonoBehaviour:
   - _enemies:
     - {fileID: 11400000, guid: eddc978a5d4540b42b8dd7a7fd395b9b, type: 2}
     - {fileID: 11400000, guid: 0ef86b08e4dfcc34aa78780c53e50ef6, type: 2}
+  - _enemies:
+    - {fileID: 11400000, guid: cc8beda2863350444abf043939ddfd39, type: 2}
+  - _enemies:
+    - {fileID: 11400000, guid: cc8beda2863350444abf043939ddfd39, type: 2}
+    - {fileID: 11400000, guid: eddc978a5d4540b42b8dd7a7fd395b9b, type: 2}
+  - _enemies:
+    - {fileID: 11400000, guid: cc8beda2863350444abf043939ddfd39, type: 2}
+    - {fileID: 11400000, guid: 46d1d45b4af141047ad5989b5aa5b305, type: 2}
+  - _enemies:
+    - {fileID: 11400000, guid: 3c2386315c6e1f340a26dabeead5dc75, type: 2}
+    - {fileID: 11400000, guid: 46d1d45b4af141047ad5989b5aa5b305, type: 2}
+  - _enemies:
+    - {fileID: 11400000, guid: 3c2386315c6e1f340a26dabeead5dc75, type: 2}
+    - {fileID: 11400000, guid: 46d1d45b4af141047ad5989b5aa5b305, type: 2}
+    - {fileID: 11400000, guid: cc8beda2863350444abf043939ddfd39, type: 2}
+  - _enemies:
+    - {fileID: 11400000, guid: 80b9d1eb38c40a948b0b0bca28d9f22f, type: 2}
   _spawnTimes:
   - 0.5
   - 1
   - 0.5
+  - 1
+  - 1
+  - 0.75
+  - 0.5
+  - 1
+  - 60
   _phaseTime: 60
   _isDebugLog: 0
 --- !u!4 &909058081
