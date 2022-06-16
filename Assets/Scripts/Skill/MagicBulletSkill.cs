@@ -13,6 +13,7 @@ public class MagicBulletSkill : ISkill
     ObjectPool<MagicBullet> _bulletPool = new ObjectPool<MagicBullet>();
     Timer _timer = new Timer();
     GameManager _gameManager;
+    AudioClip _clip;
 
     public SkillDef SkillId { get => _skillId;}
 
@@ -21,6 +22,8 @@ public class MagicBulletSkill : ISkill
         _shotInterval = 0.5f * 6;
         _timer.Setup(_shotInterval);
         _gameManager = GameManager.Instance;
+
+        _clip = Resources.Load<AudioClip>("Shot");
 
         var root = new GameObject("MagicBulletRoot").transform;
         var prefab = Resources.Load<MagicBullet>("MagicBullet");
@@ -33,8 +36,9 @@ public class MagicBulletSkill : ISkill
         if(_timer.RunTimer())
         {
             var list = _gameManager.Enemies;
+            PlayerManager.Player.SoundPlay(_clip);
 
-            for(int i = 0; i < _shotCount; i++)
+            for (int i = 0; i < _shotCount; i++)
             {
                 //ƒvƒŒƒCƒ„[‚Éˆê”Ô‹ß‚¢“G‚ð’T‚µ‚Ä‚­‚é
                 var target = list.Where(e => e.IsActive).OrderBy(e => 

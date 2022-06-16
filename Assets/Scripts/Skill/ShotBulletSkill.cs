@@ -13,6 +13,7 @@ public class ShotBulletSkill : ISkill
     Timer _timer = new Timer();
 
     Vector2[] _vectors = new Vector2[4] { new Vector2(1, 1), new Vector2(-1, 1), new Vector2(1, -1), new Vector2(-1, -1)};
+    AudioClip _clip;
 
     public SkillDef SkillId { get => _skillId; }
 
@@ -20,6 +21,8 @@ public class ShotBulletSkill : ISkill
     {
         _shotInterval = 0.5f * 6;
         _timer.Setup(_shotInterval);
+
+        _clip = Resources.Load<AudioClip>("Shot");
 
         var root = new GameObject("ShotBulletRoot").transform;
         var prefab = Resources.Load<ShotBullet>("ShotBullet");
@@ -31,7 +34,9 @@ public class ShotBulletSkill : ISkill
     {
         if (_timer.RunTimer())
         {
-            for(int i = 0; i < _shotCount; i++)
+            PlayerManager.Player.SoundPlay(_clip);
+
+            for (int i = 0; i < _shotCount; i++)
             {
                 for(int j = 0; j < 4; j++)
                 {

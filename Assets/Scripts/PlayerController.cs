@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
     GameManager _gameManager;
     SpriteRenderer _sprite;
     Animator _anim;
+    AudioSource _audio;
 
     float _h;
 
@@ -39,6 +40,7 @@ public class PlayerController : MonoBehaviour
 
         _sprite = GetComponent<SpriteRenderer>();
         _anim = GetComponent<Animator>();
+        _audio = GetComponent<AudioSource>();
 
         _currentHp = new FloatReactiveProperty(_hp);
 
@@ -150,9 +152,15 @@ public class PlayerController : MonoBehaviour
     void HitPointUp()
     {
         _hp++;
+        _currentHp.Value++;
     }
     private void LateUpdate()
     {
         _playerManager.SpecalSkill.Update();
+    }
+
+    public void SoundPlay(AudioClip clip)
+    {
+        _audio.PlayOneShot(clip);
     }
 }

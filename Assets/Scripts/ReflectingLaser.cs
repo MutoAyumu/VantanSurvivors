@@ -14,6 +14,7 @@ public class ReflectingLaser : ISpecialSkill
     LineRenderer _line;
     RaycastHit2D _hit;
     LayerMask _mask;
+    AudioClip _clip;
 
     Vector2 _currentLaserPoint;
 
@@ -70,6 +71,7 @@ public class ReflectingLaser : ISpecialSkill
         _line = player.gameObject.AddComponent<LineRenderer>();
 
         var setup = Resources.Load<LaserSetup>("LaserSetup");
+        _clip = Resources.Load<AudioClip>("Laser");
 
         _lineAnimationSpeed = setup.LineAnimationSpeed;
         _reflectiveCount = setup.ReflectiveCount;
@@ -109,6 +111,8 @@ public class ReflectingLaser : ISpecialSkill
         //プレイヤーの位置からランダムな方向にRayを飛ばす
         _hit = Physics2D.Raycast(origin, dir.normalized, 100, _mask);
 
+        PlayerManager.Player.SoundPlay(_clip);
+
         _isAction = true;
         Debug.Log($"<color=yellow>{this}</color> : 反射レーザーを使用");
     }
@@ -119,6 +123,8 @@ public class ReflectingLaser : ISpecialSkill
         var reflect = Vector2.Reflect(dir, _hit.normal);
 
         _hit = Physics2D.Raycast(_currentLaserPoint, reflect, 100,_mask);
+
+        PlayerManager.Player.SoundPlay(_clip);
 
         _reflectedCount++;
     }
