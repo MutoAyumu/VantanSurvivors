@@ -22,10 +22,14 @@ public class GameManager
     Timer _gameTimer = new Timer();
     FloatReactiveProperty _timer;
 
+    IntReactiveProperty _objectCount;
+
     int _phaseCount;
-    bool _isClear;
+    bool _isGameOver;
     bool _isPause;
     bool _isEnemyDebugLogFlag;
+
+    IntReactiveProperty _enemyCount;
 
     static GameManager _instance = new GameManager();
 
@@ -33,7 +37,7 @@ public class GameManager
 
     private GameManager() { }
 
-    public bool IsClear { get => _isClear; }
+    public bool IsGameOver { get => _isGameOver; }
     static public int PhaseCount { get => Instance._phaseCount; }
     public bool EnemyDebugLog { get => _isEnemyDebugLogFlag; }
     public List<EnemyBase> Enemies { get => Instance._enemies; }
@@ -41,13 +45,22 @@ public class GameManager
 
     public IReadOnlyReactiveProperty<float> GameTimer => _timer;
 
+    public IReadOnlyReactiveProperty<int> ObjectCount => _objectCount;
+
+    public IReadOnlyReactiveProperty<int> EnemyCount { get => _enemyCount;}
+
     public void SetUp()
     {
+        _phaseCount = 0;
+        _enemies.Clear();
         _enemies = GameObject.FindObjectsOfType<EnemyBase>(true).ToList();
+        _isGameOver = false;
     }
     public void SetTimer()
     {
         _timer = new FloatReactiveProperty(0);
+        _objectCount = new IntReactiveProperty(0);
+        _enemyCount = new IntReactiveProperty(0);
     }
 
     public void SetGameListener(GameManagerAuxiliary gameTime)
@@ -66,11 +79,13 @@ public class GameManager
     {
         if (!_isPause)
         {
+            if (_isGameOver) return;
+
             _timer.Value += Time.deltaTime;
 
             if (_gameTimer.RunTimer())
             {
-                if (_isClear) return;
+                if (_isGameOver) return;
 
                 OnGameClear?.Invoke();
             }
@@ -103,10 +118,35 @@ public class GameManager
         _phaseCount++;
     }
 
+    void GameOver()
+    {
+        _isGameOver = true;
+        OnGameOver?.Invoke();
+    }
+
+    public void SetGameOverListener(PlayerController p)
+    {
+        p.OnDeath += GameOver;
+    }
 
     void Clear()
     {
-        _isClear = true;
         Debug.Log($"{this} : <color=red>ÉQÅ[ÉÄÉNÉäÉA</color>");
+    }
+    public void TestObjectCount(bool flag)
+    {
+        if(flag)
+        {
+            _objectCount.Value++;
+        }
+        else
+        {
+            _objectCount.Value--;
+        }
+    }
+
+    public void TestEnemyCount()
+    {
+        _enemyCount.Value++;
     }
 }

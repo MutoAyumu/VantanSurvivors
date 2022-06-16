@@ -45,11 +45,17 @@ public class PlayerManager
 
     public void SetUp()
     {
+        _skill.Clear();
+        _passive.Clear();
+        _specialSkill = null;
+
         AddSkill(1);
         SetSpecialSkill(1);
         _skillSelect = GameObject.FindObjectOfType<SkillSelectUI>();
         _exp = new FloatReactiveProperty(0);
         _specialPoint = new FloatReactiveProperty(0);
+        _level = 1;
+        _nextLevelUpExp = 1;
     }
 
     void SetSpecialSkill(int Id)

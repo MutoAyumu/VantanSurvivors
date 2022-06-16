@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UniRx.Triggers;
+using UniRx;
 
 public class EnemyBase : MonoBehaviour, IObjectPool, IDamage
 {
@@ -9,13 +11,17 @@ public class EnemyBase : MonoBehaviour, IObjectPool, IDamage
     float _speed;
     float _hp;
     float _power;
+    string _stateName;
     Transform _player = default;
     Animator _anim;
     Rigidbody2D _rb;
+    Collider2D _col;
     GameManager _gameManager;
     ItemManager _itemManager;
     PlayerManager _playerManager;
     bool _isPause;
+    bool _isDeath;
+    ObservableStateMachineTrigger _trigger;
 
     public float Radius { get => _radius;}
 
@@ -27,6 +33,8 @@ public class EnemyBase : MonoBehaviour, IObjectPool, IDamage
 
         _rb = this.GetComponent<Rigidbody2D>();
         _anim = this.GetComponent<Animator>();
+        _trigger = _anim.GetBehaviour<ObservableStateMachineTrigger>();
+        _col = this.GetComponent<Collider2D>();
     }
     private void OnEnable()
     {
@@ -44,7 +52,7 @@ public class EnemyBase : MonoBehaviour, IObjectPool, IDamage
     }
     private void Update()
     {
-        if (!IsActive || _isPause) return;
+        if (!IsActive || _isPause || _isDeath) return;
 
         Vector3 dir = _player.position - this.transform.position;
         dir.Normalize();
@@ -67,25 +75,43 @@ public class EnemyBase : MonoBehaviour, IObjectPool, IDamage
     }
     public void Create(EnemyStatus status)
     {
-        _anim.Play(status.AnimName);
+        _stateName = status.AnimName;
+        _anim.Play(_stateName);
         _rb.simulated = true;
         _isActive = true;
+        _isDeath = false;
         _speed = status.Speed;
         _hp = status.Hp;
         _power = status.Power;
+        _col.enabled = true;
+
+        _trigger
+            .OnStateExitAsObservable()
+            .Where(x => x.StateInfo.IsName(_stateName + "Death"))
+            .Subscribe(x =>
+            {
+                Destroy();
+            }).AddTo(this);
+
+        _gameManager.TestObjectCount(true);
     }
     public void Destroy()
     {
-        _anim.Play("Enabled");
+        if (_isActive)
+        {
+            var r = Random.Range(0, 2);
+
+            if (r != 0)
+                _itemManager.SetExp(this.transform);
+
+            _playerManager.GetSpecialPoint(1);
+
+            _gameManager.TestObjectCount(false);
+            _gameManager.TestEnemyCount();
+        }
+
         _rb.simulated = false;
         _isActive = false;
-
-        _playerManager.GetSpecialPoint(1);
-
-        var r = Random.Range(0, 2);
-
-        if(r != 0)
-        _itemManager.SetExp(this.transform);
     }
 
     void Pause()
@@ -107,10 +133,13 @@ public class EnemyBase : MonoBehaviour, IObjectPool, IDamage
     public void Damage(float damage)
     {
         _hp -= damage;
+        DamagePopup.Pop(this.gameObject, (int)damage);
 
         if(_hp <= 0)
         {
-            Destroy();
+            _anim.SetTrigger("IsDeath");
+            _isDeath = true;
+            _col.enabled = false;
         }
 
         if(_gameManager.EnemyDebugLog)

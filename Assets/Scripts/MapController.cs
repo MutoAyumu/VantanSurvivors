@@ -5,94 +5,69 @@ using UnityEngine.Tilemaps;
 
 public class MapController : MonoBehaviour
 {
-    Tilemap[,] _maps = new Tilemap[3,3];
-    Vector3 _screenRightTop;
-    Vector3 _screenLeftDown;
+    [SerializeField] Vector2 _loopSize = Vector2.zero;
+    Transform _player;
 
-    float _screenWidth;
-    float _screenHeight;
+    Vector2[] _points = new Vector2[2];
 
-    int _x;
-    int _y;
-    int _a;
-    int _b = 2;
-
-    [SerializeField] Transform _rightTopPos;
-    [SerializeField] Transform _leftDownPos;
-
-    private void Awake()
+    private void Start()
     {
-        var t = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
-        _screenWidth = t.x;
-        _screenHeight = t.y;
+        //âEè„
+        _points[0] = new Vector2(_loopSize.x / 2, _loopSize.y / 2);
+        //ç∂â∫
+        _points[1] = new Vector2(-_loopSize.x / 2, -_loopSize.y / 2);
 
-        SetUp();
-        SetUpPos();
+        _player = PlayerManager.Player.transform;
     }
-    void SetUp()
-    {   
-        var chilleds = GetComponentsInChildren<Tilemap>();
-        var c = 0;
-        _x = 1;
-        _y = 1;
 
-        for(int i= 0; i < 3; i++)
-        {
-            for(int j = 0; j < 3; j++)
-            {
-                _maps[i, j] = chilleds[c];
-                c++;
-            }
-        }
-    }
-    void SetUpPos()
-    {
-        _screenRightTop = _maps[_y, _x].transform.position + new Vector3(_screenWidth, _screenHeight);
-        _screenLeftDown = _maps[_y, _x].transform.position + new Vector3(-_screenWidth, -_screenHeight);
-
-        _rightTopPos.position = _screenRightTop;
-        _leftDownPos.position = _screenLeftDown;
-    }
     private void Update()
     {
-        var playerPos = PlayerManager.Player.transform.position;
-
-        if (playerPos.y > _screenRightTop.y)   //è„
+        if(_player.position.x > _points[0].x + this.transform.position.x)
         {
-            Debug.Log("Topà⁄ìÆ");
-            _y--;
+            //var pos = _player.position;
+            //pos = _points[1];
+            //pos.x += _player.position.y;
+            //_player.position = pos;
+            var pos = this.transform.position;
+            pos.x += _loopSize.x;
+            this.transform.position = pos;
 
-            if(_y < 0)
-            {
-                _y = 2;
-            }
+        }
+        else if(_player.position.x < _points[1].x + this.transform.position.x)
+        {
+            //var pos = _player.position;
+            //pos = _points[0];
+            //pos.x -= _player.position.y;
+            //_player.position = pos;
+            var pos = this.transform.position;
+            pos.x -= _loopSize.x;
+            this.transform.position = pos;
+        }
 
-            for (int i = 0; i < 3; i++)
-            {
-                _maps[_b % 2, i].transform.position = _maps[_a % 2, i].transform.position + new Vector3(0, _screenHeight * 2);
-            }
-
-            SetUpPos();
-            _a++;
-            _b--;
-        }
-        else if (playerPos.y < _screenLeftDown.y)   //â∫
+        if (_player.position.y > _points[0].y + this.transform.position.y)
         {
-            Debug.Log("Downà⁄ìÆ");
-            _y++;
-            SetUpPos();
+            //var pos = _player.position;
+            //pos = _points[1];
+            //pos.y += _player.position.x;
+            //_player.position = pos;
+            var pos = this.transform.position;
+            pos.y += _loopSize.y;
+            this.transform.position = pos;
         }
-        if (playerPos.x > _screenRightTop.x)   //âE
+        else if (_player.position.y < _points[1].y + this.transform.position.y)
         {
-            Debug.Log("Rightà⁄ìÆ");
-            _x++;
-            SetUpPos();
+            //var pos = _player.position;
+            //pos = _points[0];
+            //pos.y -= _player.position.x;
+            //_player.position = pos;
+            var pos = this.transform.position;
+            pos.y -= _loopSize.y;
+            this.transform.position = pos;
         }
-        if (playerPos.x < _screenLeftDown.x)   //ç∂
-        {
-            Debug.Log("Leftà⁄ìÆ");
-            _x--;
-            SetUpPos();
-        }
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(this.transform.position, _loopSize);
     }
 }

@@ -14,12 +14,15 @@ public class DamageAreaSkill : ISkill
     SkillDef _skillId = SkillDef.DamageArea;
     Timer _timer = new Timer();
     GameObject _areaImage;
+    AudioClip _clip;
 
     public SkillDef SkillId { get => _skillId; }
 
     public void Setup()
     {
         _timer.Setup(_interval);
+
+        _clip = Resources.Load<AudioClip>("Electronic");
 
         _areaImage = GameObject.Instantiate(Resources.Load("DamageArea"), PlayerManager.Player.transform) as GameObject;
         _areaImage.transform.localScale = new Vector3(_maxArea * 2, _maxArea * 2, 0);
@@ -41,7 +44,7 @@ public class DamageAreaSkill : ISkill
 
             var enemies = Physics2D.OverlapCircleAll(PlayerManager.Player.transform.position, _maxArea / 2);
 
-            foreach(var e in enemies)
+            foreach (var e in enemies)
             {
                 var target = e.GetComponent<IDamage>();
 
@@ -50,7 +53,9 @@ public class DamageAreaSkill : ISkill
                 target.Damage(_damage);
                 attackCount++;
 
-                if(attackCount >= _maxAttackCount)
+                PlayerManager.Player.SoundPlay(_clip);
+
+                if (attackCount >= _maxAttackCount)
                 {
                     break;
                 }

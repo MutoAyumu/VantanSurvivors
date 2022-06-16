@@ -11,6 +11,7 @@ public class ReflectedBulletSkill : ISkill
     SkillDef _skillId = SkillDef.ReflectingBullet;
     ObjectPool<ReflectingBullets> _bulletPool = new ObjectPool<ReflectingBullets>();
     Timer _timer = new Timer();
+    AudioClip _clip;
 
     public SkillDef SkillId { get => _skillId; }
 
@@ -18,6 +19,8 @@ public class ReflectedBulletSkill : ISkill
     {
         _shotInterval = 0.5f * 6;
         _timer.Setup(_shotInterval);
+
+        _clip = Resources.Load<AudioClip>("Shot");
 
         var root = new GameObject("ReflectionBulletRoot").transform;
         var prefab = Resources.Load<ReflectingBullets>("ReflectionBullet");
@@ -29,6 +32,8 @@ public class ReflectedBulletSkill : ISkill
     {
         if (_timer.RunTimer())
         {
+            PlayerManager.Player.SoundPlay(_clip);
+
             var cRad = Random.Range(360f, 0f);
             Vector3 dir = new Vector3(0, 0, 0);
 

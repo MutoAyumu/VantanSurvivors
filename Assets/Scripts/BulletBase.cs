@@ -45,6 +45,8 @@ public class BulletBase : MonoBehaviour, IObjectPool
         _col.enabled = true;
 
         _timer.Setup(_destroyLimit);
+
+        GameManager.Instance.TestObjectCount(true);
     }
     public void Create(EnemyStatus status)
     {
@@ -55,6 +57,8 @@ public class BulletBase : MonoBehaviour, IObjectPool
         _image.enabled = false;
         _isActive = false;
         _col.enabled = false;
+
+        GameManager.Instance.TestObjectCount(false);
     }
 
     void Pause()

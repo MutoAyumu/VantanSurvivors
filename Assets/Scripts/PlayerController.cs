@@ -24,9 +24,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] ISpecialSkill skill;
 
     PlayerManager _playerManager;
+    GameManager _gameManager;
     SpriteRenderer _sprite;
+    Animator _anim;
+    AudioSource _audio;
 
     float _h;
+
+    public event System.Action OnDeath;
 
     private void Awake()
     {
@@ -34,6 +39,8 @@ public class PlayerController : MonoBehaviour
         _playerManager.SetPlayer(this);
 
         _sprite = GetComponent<SpriteRenderer>();
+        _anim = GetComponent<Animator>();
+        _audio = GetComponent<AudioSource>();
 
         _currentHp = new FloatReactiveProperty(_hp);
 
@@ -46,10 +53,13 @@ public class PlayerController : MonoBehaviour
     }
     private void Start()
     {
-
+        _gameManager = GameManager.Instance;
+        _gameManager.SetGameOverListener(this);
     }
     private void Update()
     {
+        if (_gameManager.IsGameOver) return;
+
         var h = Input.GetAxisRaw("Horizontal");
         var v = Input.GetAxisRaw("Vertical");
 
@@ -74,11 +84,19 @@ public class PlayerController : MonoBehaviour
             _currentHp.Value = Mathf.Clamp(_currentHp.Value - damage, 0, _hp);
         }
 
-        if(_playerManager.DebugLog)
+        if (_currentHp.Value <= 0)
+        {
+            _anim.SetTrigger("IsDeath");
+            OnDeath?.Invoke();
+        }
+
+        if (_playerManager.DebugLog)
         Debug.Log($"{this.name} : ダメージを受けた({damage}) : 残りHP {_currentHp}");
     }
     void InputAttack()
     {
+        if (Time.timeScale <= 0) return;
+
         if(Input.GetButtonDown("Fire2"))
         {
             if (_playerManager.SpecialPoint.Value == _specialValue)
@@ -134,9 +152,15 @@ public class PlayerController : MonoBehaviour
     void HitPointUp()
     {
         _hp++;
+        _currentHp.Value++;
     }
     private void LateUpdate()
     {
         _playerManager.SpecalSkill.Update();
+    }
+
+    public void SoundPlay(AudioClip clip)
+    {
+        _audio.PlayOneShot(clip);
     }
 }

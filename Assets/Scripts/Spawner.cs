@@ -50,9 +50,13 @@ public class Spawner : MonoBehaviour
         _itemManager.SetUp();//‚±‚±ˆÚ“®‚·‚é‚©‚à
 
         _phaseTimer.Setup(_phaseTime);
+
+        _spawneTimer.Setup(_spawnTimes[0]);
     }
     private void Update()
     {
+        if (_gameManager.IsGameOver) return;
+
         if(_spawneTimer.RunTimer())
         {
             Spawn();
