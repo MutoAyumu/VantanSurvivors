@@ -968,6 +968,7 @@ GameObject:
   - component: {fileID: 789661318}
   - component: {fileID: 789661317}
   - component: {fileID: 789661316}
+  - component: {fileID: 789661321}
   m_Layer: 5
   m_Name: TitleButton
   m_TagString: Untagged
@@ -1010,6 +1011,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _button: {fileID: 789661317}
   _sceneName: Title
+  _type: 0
 --- !u!114 &789661317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1160,6 +1162,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 789661314}
   m_CullTransparentMesh: 1
+--- !u!95 &789661321
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 789661314}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1aab221844f175f499c1918a9191b3d6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &875276685
 GameObject:
   m_ObjectHideFlags: 0
@@ -1581,10 +1603,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3

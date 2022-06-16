@@ -24,7 +24,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 200}
   m_MaxSize: {x: 32384, y: 16192}
   vertical: 0
-  controlID: 18318
+  controlID: 24838
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 1
-  controlID: 18323
+  controlID: 24839
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -167,7 +167,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 8096}
   vertical: 0
-  controlID: 18324
+  controlID: 24840
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -227,7 +227,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 5aa5ffff10b0ffff12fbffff3e8e0000508e0000708e0000788e0000848e00009c900000
+      m_ExpandedIDs: 807ef0ff0086f0ff3e0cf1ff8a0cf1ffbc0ef1ffe80ef1ffec0ef1ff8410f1ff5c16f1ff36aef1ff84aef1ffc2aef1ffe4aff1ff30b0f1ff144cf2ff5aa5ffff10b0ffff12fbffff3e8e0000508e0000708e0000788e0000848e00009c900000d608010056090100640f0100760f0100960f01009e0f010058150100ba150100d8150100
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -270,8 +270,8 @@ MonoBehaviour:
     y: 0
     width: 544
     height: 610
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 202, y: 221}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 8}
   m_Panes:
   - {fileID: 8}
@@ -364,7 +364,7 @@ MonoBehaviour:
       containerId: overlay-toolbar__top
       floating: 0
       collapsed: 0
-      displayed: 1
+      displayed: 0
       snapOffset: {x: 0, y: 25}
       snapOffsetDelta: {x: 0, y: 0}
       snapCorner: 0
@@ -524,9 +524,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 960, y: 540, z: 0}
+    m_Target: {x: 968.331, y: 319.53497, z: 2.5851204}
     speed: 2
-    m_Value: {x: 960, y: 540, z: 0}
+    m_Value: {x: 968.331, y: 319.53497, z: 2.5851204}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -577,9 +577,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 1101.4536
+    m_Target: 350.40643
     speed: 2
-    m_Value: 1101.4536
+    m_Value: 350.40643
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -649,8 +649,8 @@ MonoBehaviour:
     y: 610
     width: 1527
     height: 337
-  m_MinSize: {x: 231, y: 271}
-  m_MaxSize: {x: 10001, y: 10021}
+  m_MinSize: {x: 230, y: 250}
+  m_MaxSize: {x: 10000, y: 10000}
   m_ActualView: {fileID: 11}
   m_Panes:
   - {fileID: 11}
@@ -659,7 +659,7 @@ MonoBehaviour:
   - {fileID: 14}
   - {fileID: 15}
   m_Selected: 0
-  m_LastSelected: 1
+  m_LastSelected: 4
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -701,22 +701,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Audio
+    - Assets/Scenes
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Audio
+  - Assets/Scenes
   m_LastFoldersGridSize: -1
   m_LastProjectPath: "C:\\Users\\dango\\OneDrive\\\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\\Unity\\VantanSurvivors"
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 200}
-    m_SelectedIDs: d2e30000
-    m_LastClickedID: 58322
-    m_ExpandedIDs: 00000000c0660000c2660000c4660000c6660000c8660000ca660000cc6600002c7d000000ca9a3bffffff7f
+    scrollPos: {x: 0, y: 452}
+    m_SelectedIDs: 666e0000
+    m_LastClickedID: 28262
+    m_ExpandedIDs: 00000000c0660000c2660000c4660000c6660000c8660000ca660000cc660000ce6600002c7d000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -769,9 +769,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: c677f3ff
-    m_LastClickedInstanceID: -821306
-    m_HadKeyboardFocusLastEvent: 0
+    m_SelectedInstanceIDs: 74880000
+    m_LastClickedInstanceID: 34932
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c62300009e5e0000447900006a7900008879000076790000567b0000268e0000306300002668000098690000acbf0000a0bf0000cc6a0000ac7200005673000080730000b8730000b4730000ce7100008487000000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -974,7 +974,7 @@ MonoBehaviour:
     m_SaveData: []
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: -821306
+  m_LastSelectedObjectID: 71076
 --- !u!114 &16
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -1035,7 +1035,7 @@ MonoBehaviour:
     m_CachedPref: 160
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
-  m_LastInspectedObjectInstanceID: -821306
+  m_LastInspectedObjectInstanceID: 34932
   m_LastVerticalScrollValue: 0
   m_GlobalObjectId: 
   m_InspectorMode: 0

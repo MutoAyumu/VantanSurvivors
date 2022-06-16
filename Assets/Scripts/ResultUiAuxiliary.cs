@@ -20,7 +20,7 @@ public class ResultUiAuxiliary : MonoBehaviour
 
         _gameTime.text = ((int)(x / 60)).ToString() + ":" + ((int)(x % 60)).ToString("00");
 
-        _enemyCount.text = g.EnemyCount.Value.ToString("000000");
+        _enemyCount.text = g.EnemyCount.Value.ToString();
 
         _level.text = PlayerManager.Instance.Level.ToString();
     }
