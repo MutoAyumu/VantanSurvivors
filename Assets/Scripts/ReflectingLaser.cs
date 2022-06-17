@@ -28,11 +28,11 @@ public class ReflectingLaser : ISpecialSkill
         {
             _currentLaserPoint = Vector2.Lerp(_currentLaserPoint, _hit.point, _lineAnimationSpeed * Time.deltaTime);
 
-            var delta = _reflectedCount / (float)_reflectiveCount;
+            //var delta = _reflectedCount / (float)_reflectiveCount;
 
             for (int i = _reflectiveCount; i >= _reflectedCount; i--)
             {
-                _line.SetPosition(i, Vector2.Lerp(_currentLaserPoint, _hit.point, delta));
+                _line.SetPosition(i, Vector2.Lerp(_currentLaserPoint, _hit.point, Time.deltaTime));
             }
 
             for(int i = 1; i <= _reflectedCount; i++)
@@ -118,7 +118,7 @@ public class ReflectingLaser : ISpecialSkill
     }
     void Reflection()
     {
-        //”½ŽË‚µ‚½ˆ—
+        //”½ŽË‚·‚éˆ—
         var dir = _hit.point - (Vector2)_line.GetPosition(_reflectedCount - 1);
         var reflect = Vector2.Reflect(dir, _hit.normal);
 

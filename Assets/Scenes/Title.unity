@@ -375,7 +375,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: SURVIVORS
+  m_Text: SURVIVOR
 --- !u!222 &432120828
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -985,7 +985,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: MOLLY
+  m_Text: MORLEY
 --- !u!222 &1719794538
 CanvasRenderer:
   m_ObjectHideFlags: 0
